@@ -1,0 +1,3 @@
+! -- Fonts -- !
+URxvt.font:xft:Inconsolata:pixelsize=17,xft:Symbola:pixelsize=19,style=Regular
+URxvt.boldFont:xft:Inconsolata:style=Bold,pixelsize=17,xft:Symbola:pixelsize=19,style=Regular
