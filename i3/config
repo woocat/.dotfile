@@ -160,6 +160,7 @@ bar {
 		separator_symbol ""
 }
 exec fcitx
-exec feh --bg-scale ~/Pictures/bg.jpg
+exec sogou-qimpanel
+exec feh --bg-scale ~/Pictures/wall.jpg
 exec compton
 
