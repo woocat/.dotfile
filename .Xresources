@@ -1,3 +1,6 @@
-! -- Fonts -- !
-URxvt.font:xft:Inconsolata:pixelsize=17,xft:Symbola:pixelsize=19,style=Regular
-URxvt.boldFont:xft:Inconsolata:style=Bold,pixelsize=17,xft:Symbola:pixelsize=19,style=Regular
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintslight
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
