@@ -79,8 +79,11 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
-alias reboot="sudo systemctl reboot"
-alias poweroff="sudo systemctl poweroff"
+alias reboot="sudo reboot"
+alias poweroff="sudo poweroff"
+alias suspend="sudo pm-suspend"
+alias hibernate="sudo pm-hibernate"
 alias cdwp="cd ~/WorkSpace/"
-
+export GOPATH=$HOME/go
+export PATH=$PATH:/home/woocat/go/bin
 #emerge

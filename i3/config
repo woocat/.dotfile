@@ -36,11 +36,10 @@ bindsym $mod+Return exec xfce4-terminal
 bindsym $mod+Shift+c kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+#bindsym $mod+d exec dmenu_run
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+h focus left
@@ -151,16 +150,21 @@ bindsym $mod+r mode "resize"
 new_window pixel 1
 bindsym $mod+Shift+n scratchpad show
 bindsym $mod++n move scratchpad
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-        status_command i3blocks -c ~/.config/i3blocks/i3blocks.conf 
-		font pango:Terminus,FontAwesome 8
-		position top
-		separator_symbol ""
-}
-exec fcitx
-exec sogou-qimpanel
-exec feh --bg-scale ~/Pictures/wall.jpg
-exec compton
 
+# bar
+bar {
+    status_command i3status
+	position top
+	font pango:monofur for Powerline 8
+}
+#bindsym $mod+d exec --no-startup-id i3-dmenu-desktop --dmenu='dmenu -fn "monofur for Powerline" -i'
+bindsym $mod+d exec rofi -show run
+bindsym $mod+c exec rofi -show 
+ 
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%-
+bindsym XF86AudioMute exec --no-startup-id amixer sset Master toggle
+exec --no-startup-id fcitx
+exec_always --no-startup-id  feh --bg-scale ~/Pictures/wall.jpg
+exec --no-startup-id compton
+bindsym $mod+x [urgent=latest] focus

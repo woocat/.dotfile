@@ -31,24 +31,36 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     markdown
+     python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     (auto-completion :variables
+                      auto-completion-tab-key-behavior 'complete
+                      auto-completion-complete-with-key-sequence 'nil
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-private-snippets-directory nil)
      ivy
-     auto-completion
+     html
+     vimscript
+     lua
+     markdown
      better-defaults
      emacs-lisp
      git
+     (go :variables go-tab-width 4)
+     org
+     syntax-checking
+     ;;semantic
+     ;;ycmd
      ;; markdown
-     ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
-     ;; syntax-checking
      ;; version-control
      )
    ;; List of additional packages that will be installed without being
@@ -96,7 +108,7 @@ values."
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
    dotspacemacs-elpa-subdirectory nil
-   ;; One of `vim', `emacs' or `hybrid'.
+  
    ;; `hybrid' is like `vim' except that `insert state' is replaced by the
    ;; `hybrid state' with `emacs' key bindings. The value can also be a list
    ;; with `:variables' keyword (similar to layers). Check the editing styles
@@ -127,17 +139,17 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(solarized-light
+   dotspacemacs-themes '(monokai
                          spacemacs-light)
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Inconsolata"
-                               :size 16
+   dotspacemacs-default-font '("Source Code Pro for Powerline"
+                               :size 17
                                :weight normal
                                :width normal
-                               :powerline-scale 1.8)
+                               :powerline-scale 1.0)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -313,6 +325,8 @@ before packages are loaded. If you are unsure, you should try in setting them in
     '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
       ("org-cn"   . "http://elpa.emacs-china.org/org/")
       ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+(setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
+(load custom-file 'no-error 'no-message)
   )
 
 (defun dotspacemacs/user-config ()
@@ -322,47 +336,47 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  (setcdr evil-insert-state-map nil)
-  (define-key evil-insert-state-map [escape] 'evil-normal-state)
-  (global-set-key (kbd "C-c l") 'org-store-link)
-  (define-key evil-insert-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
-  (define-key evil-insert-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-  (define-key evil-insert-state-map (kbd "C-d") 'delete-forward-char)
-  (define-key evil-normal-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
-  (define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-  (setq powerline-default-separator 'utf-8)
-  (setq ns-use-srgb-colorspace nil)
-  (setq powerline-default-separator 'arrow)
-  (add-hook 'c++-mode-hook 'hungry-delete-mode)
-  (setq c-basic-offset 4)
-  (setq browse-url-generic-program
-        (executable-find "firefox")
-        browse-url-browser-function 'browse-url-generic)
-  (dolist (charset '(kana han symbol cjk-misc bopomofo))
-    (set-fontset-font (frame-parameter nil 'font)
-                      charset (font-spec :family "浪漫雅圆" :size 16)))
-  )
-
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(evil-want-Y-yank-to-eol nil)
- '(package-selected-packages
-   (quote
-    (mmm-mode markdown-toc markdown-mode gh-md solarized-theme company yasnippet auto-complete gitignore-mode magit magit-popup git-commit with-editor wgrep vi-tilde-fringe smex ivy-purpose ivy-hydra counsel-projectile counsel swiper ivy ws-butler winum which-key volatile-highlights uuidgen use-package unfill toc-org spaceline smeargle restart-emacs rainbow-delimiters popwin persp-mode pcre2el paradox orgit org-projectile org-present org-pomodoro org-download org-bullets open-junk-file neotree mwim move-text magit-gitflow macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hungry-delete htmlize hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link fuzzy flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word company-statistics column-enforce-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;resolve the comflict between ycmd and company-c-headers
+;;disable bold font
+;;(set-face-bold-p 'bold nil)
+(with-eval-after-load 'cc-vars
+  (c-add-style "mystyle"
+               '(
+                 (c-basic-offset . 4)
+                 (c-comment-only-line-offset . 0)
+                 (c-offsets-alist
+                  (statement-block-intro . +)
+                  (knr-argdecl-intro . 0)
+                  (substatement-open . 0)
+                  (substatement-label . 0)
+                  (label . 0)
+                  (statement-cont . +))))
+  (push '(other . "mystyle") c-default-style))
+(setcdr evil-insert-state-map nil)
+(define-key evil-insert-state-map [escape] 'evil-normal-state)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(define-key evil-insert-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
+(define-key evil-insert-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+(define-key evil-insert-state-map (kbd "C-d") 'delete-forward-char)
+(define-key evil-normal-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
+(define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(setq powerline-default-separator 'utf-8)
+(setq ns-use-srgb-colorspace nil)
+(setq powerline-default-separator 'arrow)
+(add-hook 'c++-mode-hook 'hungry-delete-mode)
+(add-hook 'c-mode-hook 'hungry-delete-mode)
+(setq browse-url-generic-program
+      (executable-find "firefox")
+      browse-url-browser-function 'browse-url-generic)
+(dolist (charset '(kana han cjk-misc bopomofo))
+  (set-fontset-font (frame-parameter nil 'font) charset
+                    (font-spec :family "文泉驿微米黑" :size 16)))
+;;(set-variable 'ycmd-python-binary-path "/usr/bin/python")
+;;(setq ycmd-server-command '("python" "/home/woocat/.vim/bundle/youcompleteme/third_party/ycmd/ycmd"))
+;;(set-variable 'ycmd-global-config "/home/woocat/.ycm_extra_conf.py")
+;;(spacemacs|diminish hungry-delete-mode " ㉧" " d")
+;;(spacemacs|diminish ycmd-mode " ㉦" " c")
+;;(setq ycmd-force-semantic-completion t)
 )
+

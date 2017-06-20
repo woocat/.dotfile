@@ -51,7 +51,7 @@ export XMODIFIERS="@im=fcitx"
 export QT_IM_MODULE=fcitx 
 export GTK_IM_MODULE=fcitx
 xinput float "AT Translated Set 2 keyboard"
-#export FT2_SUBPIXEL_HINTING=1
+export FT2_SUBPIXEL_HINTING=1
 #export LC_CTYPE=zh_CN.UTF-8 
 exec awesome
 
