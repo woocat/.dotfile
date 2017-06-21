@@ -108,7 +108,6 @@ values."
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
    dotspacemacs-elpa-subdirectory nil
-  
    ;; `hybrid' is like `vim' except that `insert state' is replaced by the
    ;; `hybrid state' with `emacs' key bindings. The value can also be a list
    ;; with `:variables' keyword (similar to layers). Check the editing styles
@@ -367,7 +366,7 @@ you should place your code here."
 (add-hook 'c++-mode-hook 'hungry-delete-mode)
 (add-hook 'c-mode-hook 'hungry-delete-mode)
 (setq browse-url-generic-program
-      (executable-find "firefox")
+      (executable-find "chromium")
       browse-url-browser-function 'browse-url-generic)
 (dolist (charset '(kana han cjk-misc bopomofo))
   (set-fontset-font (frame-parameter nil 'font) charset

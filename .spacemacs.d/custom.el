@@ -8,6 +8,7 @@
     ("/usr/lib/gcc/x86_64-pc-linux-gnu/5.4.0/include/g++-v5" "/usr/lib/gcc/x86_64-pc-linux-gnu/5.4.0/include/g++-v5/x86_64-pc-linux-gnu" "/usr/lib/gcc/x86_64-pc-linux-gnu/5.4.0/include/g++-v5/backward" "/usr/lib/gcc/x86_64-pc-linux-gnu/5.4.0/include" "/usr/lib/gcc/x86_64-pc-linux-gnu/5.4.0/include-fixed" " /usr/include")))
  '(company-clang-arguments nil)
  '(exec-path-from-shell-shell-name "zsh")
+ '(exec-path-from-shell-variables (quote ("GO15VENDOREXPERIMENT" "GOPATH" "MANPATH")))
  '(org-agenda-files (quote ("~/WorkSpace/Org/private.org")))
  '(org-bullets-bullet-list (quote ("❅" "❂" "❁" "✻" "✲")))
  '(org-properties-postprocess-alist (quote (("EXPLAIN" . ignore))))
