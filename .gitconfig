@@ -1,7 +1,11 @@
 [user]
 	name = woocat
-	email = catbrain@163.com
+	email = 563268560@qq.com
 [http]
 	proxy = socks5://127.0.0.1:1080
 [https]
 	proxy = socks5://127.0.0.1:1080
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+[url "gogs@dsp.ohko.cn:"]
+    insteadOf = https://dsp.ohko.cn/ 
