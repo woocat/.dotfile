@@ -39,9 +39,9 @@ values."
      ;; ----------------------------------------------------------------
      (auto-completion :variables
                       auto-completion-tab-key-behavior 'complete
+                      auto-completion-return-key-behavior 'complete
                       auto-completion-complete-with-key-sequence 'nil
                       auto-completion-complete-with-key-sequence-delay 0.1
-                      auto-completion-return-key-behavior 'complete
                       auto-completion-private-snippets-directory nil)
      ivy
      html
@@ -138,7 +138,7 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(monokai
+   dotspacemacs-themes '(
                          spacemacs-light)
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
@@ -338,19 +338,20 @@ you should place your code here."
 ;resolve the comflict between ycmd and company-c-headers
 ;;disable bold font
 ;;(set-face-bold-p 'bold nil)
-(with-eval-after-load 'cc-vars
-  (c-add-style "mystyle"
-               '(
-                 (c-basic-offset . 4)
-                 (c-comment-only-line-offset . 0)
-                 (c-offsets-alist
-                  (statement-block-intro . +)
-                  (knr-argdecl-intro . 0)
-                  (substatement-open . 0)
-                  (substatement-label . 0)
-                  (label . 0)
-                  (statement-cont . +))))
-  (push '(other . "mystyle") c-default-style))
+;;
+;;(with-eval-after-load 'cc-vars
+  ;;(c-add-style "mystyle"
+               ;;'(
+                 ;;(c-basic-offset . 4)
+                 ;;(c-comment-only-line-offset . 0)
+                 ;;(c-offsets-alist
+                  ;;(statement-block-intro . +)
+                  ;;(knr-argdecl-intro . 0)
+                  ;;(substatement-open . 0)
+                  ;;(substatement-label . 0)
+                  ;;(label . 0)
+                  ;;(statement-cont . +))))
+  ;;(push '(other . "mystyle") c-default-style))
 (setcdr evil-insert-state-map nil)
 (define-key evil-insert-state-map [escape] 'evil-normal-state)
 (global-set-key (kbd "C-c l") 'org-store-link)
@@ -363,19 +364,16 @@ you should place your code here."
 (setq powerline-default-separator 'utf-8)
 (setq ns-use-srgb-colorspace nil)
 (setq powerline-default-separator 'arrow)
-(add-hook 'c++-mode-hook 'hungry-delete-mode)
-(add-hook 'c-mode-hook 'hungry-delete-mode)
 (setq browse-url-generic-program
       (executable-find "chromium")
       browse-url-browser-function 'browse-url-generic)
 (dolist (charset '(kana han cjk-misc bopomofo))
   (set-fontset-font (frame-parameter nil 'font) charset
                     (font-spec :family "文泉驿微米黑" :size 16)))
-;;(set-variable 'ycmd-python-binary-path "/usr/bin/python")
-;;(setq ycmd-server-command '("python" "/home/woocat/.vim/bundle/youcompleteme/third_party/ycmd/ycmd"))
-;;(set-variable 'ycmd-global-config "/home/woocat/.ycm_extra_conf.py")
-;;(spacemacs|diminish hungry-delete-mode " ㉧" " d")
-;;(spacemacs|diminish ycmd-mode " ㉦" " c")
-;;(setq ycmd-force-semantic-completion t)
+(defun woocat_terminal ()
+  (interactive)
+  (shell-command "xfce4-terminal")
+  )
+(spacemacs/set-leader-keys "ot" 'woocat_terminal)
 )
 
