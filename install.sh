@@ -1,7 +1,7 @@
 #!/bin/bash
 CurrentPath=`pwd`
 ln -s ${CurrentPath}/.vimrc ~/.vimrc
-ln -s ${CurrentPath}/.zshrc ~/.zshrc
+oln -s ${CurrentPath}/.zshrc ~/.zshrc
 ln -s ${CurrentPath}/.git ~/.git
 ln -s ${CurrentPath}/.gitconfig ~/.gitconfig
 ln -s ${CurrentPath}/.Xresources ~/.Xresources
