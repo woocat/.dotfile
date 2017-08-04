@@ -38,11 +38,11 @@
       (when (not (package-installed-p pkg))
         (package-install pkg))))
 
+(require 'smartparens-config)
 (exec-path-from-shell-copy-env "GOPATH")
 ;; this set $MANPATH, $PATH and exec from shell, only on linux and macOS
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
-
 ;; other
 (require 'popwin)
 (popwin-mode t)
@@ -51,24 +51,33 @@
 (require 'evil-leader)
 (global-evil-leader-mode)
 (evil-mode 1)
-(add-hook 'emacs-lisp-mode-hook 'company-mode)
+(add-hook 'emacs-lisp-mode-hook (lambda()
+				  (company-mode)
+				  (hungry-delete-mode)
+				  (smartparens-mode)
+				  ))
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
-;; company
-(setq company-idle-delay 0.01)
-(setq company-minimum-prefix-length 1)
 (require 'powerline)
 (powerline-default-theme)
 (window-numbering-mode 1)
 (setq company-tooltip-limit 5)                      ; bigger popup window
 (setq company-idle-delay 0.01)                         ; decrease delay before autocompletion popup shows
-(setq company-echo-delay 0)                          ; remove annoying blinking
+;;(setq company-echo-delay 0)                          ; remove annoying blinking
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
+(setq company-minimum-prefix-length 3)
 (add-hook 'go-mode-hook (lambda ()
                           (set (make-local-variable 'company-backends) '(company-go))
-                          (company-mode)))
-(add-hook 'go-mode-hook 'go-eldoc-setup)
+                          (company-mode)
+			  (hungry-delete-mode)
+			  (flycheck-mode)
+			  (smartparens-mode)
+			  (go-eldoc-setup)
+			  (add-hook 'before-save-hook 'gofmt-before-save)
+			  (setq tab-width 4)
+			  (setq indent-tabs-mode 1)))
+;;(add-hook 'go-mode-hook 'go-eldoc-setup)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
 (provide 'init-packages)
