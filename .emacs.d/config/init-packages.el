@@ -16,7 +16,6 @@
 				   popwin
 				   flycheck
 				   yasnippet
-				   powerline
 				   diminish
 				   window-numbering
 				   counsel
@@ -27,6 +26,7 @@
 				   ))
 (setq package-selected-packages woocat/packages)
 ;; function to loop user packages to find which is not installed
+;; perfomance is low, can change this
 (defun woocat/packages-installed-p ()
     (loop for pkg in woocat/packages
           when (not (package-installed-p pkg)) do (return nil)
@@ -37,6 +37,7 @@
     (dolist (pkg woocat/packages)
       (when (not (package-installed-p pkg))
         (package-install pkg))))
+
 
 (require 'smartparens-config)
 (exec-path-from-shell-copy-env "GOPATH")
@@ -51,6 +52,8 @@
 (require 'evil-leader)
 (global-evil-leader-mode)
 (evil-mode 1)
+(setcdr evil-insert-state-map nil)
+(define-key evil-insert-state-map [escape] 'evil-normal-state)
 (add-hook 'emacs-lisp-mode-hook (lambda()
 				  (company-mode)
 				  (hungry-delete-mode)
@@ -61,6 +64,8 @@
 (setq enable-recursive-minibuffers t)
 (require 'powerline)
 (powerline-default-theme)
+(setcdr evil-insert-state-map nil)
+(define-key evil-insert-state-map [escape] 'evil-normal-state)
 (window-numbering-mode 1)
 (setq company-tooltip-limit 5)                      ; bigger popup window
 (setq company-idle-delay 0.01)                         ; decrease delay before autocompletion popup shows
@@ -80,4 +85,9 @@
 ;;(add-hook 'go-mode-hook 'go-eldoc-setup)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
+;;(dolist (mode '(ag-mode))
+;;	      (add-to-list 'evil-emacs-state-modes))
+(setq browse-url-browser-function 'browse-url-chromium) ; google's browser
+(setq flycheck-check-syntax-automatically '(mode-enabled save new-line))
+
 (provide 'init-packages)

@@ -6,7 +6,8 @@
  ;; If there is more than one, they won't work right.
  '(company-go-show-annotation t)
  '(evil-leader/in-all-states nil)
- '(evil-leader/leader "SPC"))
+ '(evil-leader/leader "SPC")
+ '(evil-want-C-u-scroll t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

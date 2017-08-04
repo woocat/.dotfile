@@ -8,6 +8,11 @@
   )
 (define-key evil-motion-state-map (kbd "C-e") nil)
 (define-key evil-motion-state-map (kbd "C-y") nil)
+(define-key evil-motion-state-map (kbd "C-b") nil)
+(define-key evil-motion-state-map (kbd "C-f") nil)
+(define-key evil-normal-state-map (kbd "C-p") nil)
+(define-key evil-normal-state-map (kbd "C-n") nil)
+
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
 (global-set-key (kbd "M-x") 'counsel-M-x)
@@ -21,6 +26,9 @@
   "pp" 'counsel-projectile-switch-project
   "pb" 'counsel-projectile-switch-to-buffer
   "sp" 'counsel-projectile-ag
+  "sb" 'prelude-baidu
+  "sg" 'prelude-google
+  "sh" 'prelude-github
   "fr" 'counsel-recentf
   "jd" 'godef-jump
   )
