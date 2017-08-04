@@ -16,7 +16,6 @@
 				   popwin
 				   flycheck
 				   yasnippet
-				   powerline
 				   diminish
 				   window-numbering
 				   counsel
@@ -51,6 +50,9 @@
 (require 'evil-leader)
 (global-evil-leader-mode)
 (evil-mode 1)
+(setcdr evil-insert-state-map nil)
+(define-key evil-insert-state-map [escape] 'evil-normal-state)
+(setq evil-want-C-u-scroll t)
 (add-hook 'emacs-lisp-mode-hook 'company-mode)
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
@@ -58,8 +60,6 @@
 ;; company
 (setq company-idle-delay 0.01)
 (setq company-minimum-prefix-length 1)
-(require 'powerline)
-(powerline-default-theme)
 (window-numbering-mode 1)
 (setq company-tooltip-limit 5)                      ; bigger popup window
 (setq company-idle-delay 0.01)                         ; decrease delay before autocompletion popup shows
@@ -71,4 +71,30 @@
 (add-hook 'go-mode-hook 'go-eldoc-setup)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
+;;(dolist (mode '(ag-mode))
+;;	      (add-to-list 'evil-emacs-state-modes))
+(setq browse-url-browser-function 'browse-url-chromium) ; google's browser
+(defun prelude-search (query-url prompt)
+  "Open the search url constructed with the QUERY-URL.
+PROMPT sets the `read-string prompt."
+  (browse-url
+   (concat query-url
+           (url-hexify-string
+            (if mark-active
+                (buffer-substring (region-beginning) (region-end))
+              (read-string prompt))))))
+
+(defmacro prelude-install-search-engine (search-engine-name search-engine-url search-engine-prompt)
+  "Given some information regarding a search engine, install the interactive command to search through them"
+  `(defun ,(intern (format "prelude-%s" search-engine-name)) ()
+       ,(format "Search %s with a query or region if any." search-engine-name)
+       (interactive)
+       (prelude-search ,search-engine-url ,search-engine-prompt)))
+
+(prelude-install-search-engine "google"     "http://www.google.com/search?q="              "Google: ")
+(prelude-install-search-engine "youtube"    "http://www.youtube.com/results?search_query=" "Search YouTube: ")
+(prelude-install-search-engine "github"     "https://github.com/search?q="                 "Search GitHub: ")
+(prelude-install-search-engine "baidu" "https://www.baidu.com/s?wd="              "Baidu:")
+(setq flycheck-check-syntax-automatically '(mode-enabled save new-line))
+
 (provide 'init-packages)
