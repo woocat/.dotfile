@@ -79,8 +79,8 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
- export PATH=$PATH:/home/woocat/go/bin
- export GOPATH=/home/woocat/go
+export PATH=$PATH:/home/woocat/go/bin
+export GOPATH=/home/woocat/go
 #emerge
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then

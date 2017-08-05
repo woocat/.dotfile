@@ -95,6 +95,5 @@ PROMPT sets the `read-string prompt."
 (prelude-install-search-engine "youtube"    "http://www.youtube.com/results?search_query=" "Search YouTube: ")
 (prelude-install-search-engine "github"     "https://github.com/search?q="                 "Search GitHub: ")
 (prelude-install-search-engine "baidu" "https://www.baidu.com/s?wd="              "Baidu:")
-(setq flycheck-check-syntax-automatically '(mode-enabled save new-line))
 
 (provide 'init-packages)
