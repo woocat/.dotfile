@@ -9,11 +9,8 @@
 (require 'init-packages)
 (require 'init-ui)
 (require 'init-better-defaults)
+(require 'init-function)
 (require 'init-keybindings)
 (require 'init-custom)
  
-; function to open init file
-(defun open-my-init-file()
-  (interactive)
-  (find-file "~/.emacs.d/init.el"))
 

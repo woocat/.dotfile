@@ -26,6 +26,7 @@
 				   ))
 (setq package-selected-packages woocat/packages)
 ;; function to loop user packages to find which is not installed
+;; perfomance is low, can change this
 (defun woocat/packages-installed-p ()
     (loop for pkg in woocat/packages
           when (not (package-installed-p pkg)) do (return nil)
@@ -37,11 +38,12 @@
       (when (not (package-installed-p pkg))
         (package-install pkg))))
 
+
+(require 'smartparens-config)
 (exec-path-from-shell-copy-env "GOPATH")
 ;; this set $MANPATH, $PATH and exec from shell, only on linux and macOS
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
-
 ;; other
 (require 'popwin)
 (popwin-mode t)
@@ -52,48 +54,38 @@
 (evil-mode 1)
 (setcdr evil-insert-state-map nil)
 (define-key evil-insert-state-map [escape] 'evil-normal-state)
-(setq evil-want-C-u-scroll t)
-(add-hook 'emacs-lisp-mode-hook 'company-mode)
+(add-hook 'emacs-lisp-mode-hook (lambda()
+				  (company-mode)
+				  (hungry-delete-mode)
+				  (smartparens-mode)
+				  ))
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
 (setq enable-recursive-minibuffers t)
-;; company
-(setq company-idle-delay 0.01)
-(setq company-minimum-prefix-length 1)
+;(require 'powerline)
+;(powerline-default-theme)
+(setcdr evil-insert-state-map nil)
+(define-key evil-insert-state-map [escape] 'evil-normal-state)
 (window-numbering-mode 1)
 (setq company-tooltip-limit 5)                      ; bigger popup window
 (setq company-idle-delay 0.01)                         ; decrease delay before autocompletion popup shows
-(setq company-echo-delay 0)                          ; remove annoying blinking
+;;(setq company-echo-delay 0)                          ; remove annoying blinking
 (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
+(setq company-minimum-prefix-length 3)
 (add-hook 'go-mode-hook (lambda ()
                           (set (make-local-variable 'company-backends) '(company-go))
-                          (company-mode)))
-(add-hook 'go-mode-hook 'go-eldoc-setup)
+                          (company-mode)
+			  (hungry-delete-mode)
+			  (flycheck-mode)
+			  (smartparens-mode)
+			  (go-eldoc-setup)
+			  (add-hook 'before-save-hook 'gofmt-before-save)
+			  (setq tab-width 4)
+			  (setq indent-tabs-mode 1)))
+;;(add-hook 'go-mode-hook 'go-eldoc-setup)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 (setq ediff-split-window-function 'split-window-horizontally)
 ;;(dolist (mode '(ag-mode))
 ;;	      (add-to-list 'evil-emacs-state-modes))
 (setq browse-url-browser-function 'browse-url-chromium) ; google's browser
-(defun prelude-search (query-url prompt)
-  "Open the search url constructed with the QUERY-URL.
-PROMPT sets the `read-string prompt."
-  (browse-url
-   (concat query-url
-           (url-hexify-string
-            (if mark-active
-                (buffer-substring (region-beginning) (region-end))
-              (read-string prompt))))))
-
-(defmacro prelude-install-search-engine (search-engine-name search-engine-url search-engine-prompt)
-  "Given some information regarding a search engine, install the interactive command to search through them"
-  `(defun ,(intern (format "prelude-%s" search-engine-name)) ()
-       ,(format "Search %s with a query or region if any." search-engine-name)
-       (interactive)
-       (prelude-search ,search-engine-url ,search-engine-prompt)))
-
-(prelude-install-search-engine "google"     "http://www.google.com/search?q="              "Google: ")
-(prelude-install-search-engine "youtube"    "http://www.youtube.com/results?search_query=" "Search YouTube: ")
-(prelude-install-search-engine "github"     "https://github.com/search?q="                 "Search GitHub: ")
-(prelude-install-search-engine "baidu" "https://www.baidu.com/s?wd="              "Baidu:")
-
 (provide 'init-packages)
