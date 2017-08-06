@@ -23,6 +23,7 @@
 				   go-mode
 				   go-eldoc
 				   company-go
+				   use-package
 				   ))
 (setq package-selected-packages woocat/packages)
 ;; function to loop user packages to find which is not installed
@@ -88,4 +89,11 @@
 ;;(dolist (mode '(ag-mode))
 ;;	      (add-to-list 'evil-emacs-state-modes))
 (setq browse-url-browser-function 'browse-url-chromium) ; google's browser
+;;(require 'diminish)
+;;(diminish 'company-mode "ⓒ")
+;;(diminish 'hungry-delete-mode " ⓗ")
+;;(diminish 'ivy-mode "ⓘ")
+;;(diminish 'undo-tree-mode "ⓤ")
+;;(diminish 'smartparens-mode "ⓢ")
+;;(diminish 'flycheck-mode "ⓕ")
 (provide 'init-packages)
