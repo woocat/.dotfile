@@ -93,7 +93,24 @@
   #+BEGIN_SRC emacs-lisp
     (use-package org
       :ensure t
-      :pin gnu)
+      :bind
+      ("C-c c" . org-capture)
+      ("C-c a" . org-agenda)
+      :config
+      (setq org-agenda-files '("~/gtd/inbox.org"
+                         "~/gtd/gtd.org"
+                         "~/gtd/tickler.org"))
+      (setq org-capture-templates '(("t" "Todo [inbox]" entry
+				     (file+headline "~/gtd/inbox.org" "Tasks")
+				     "* TODO %i%?")
+				    ("T" "Tickler" entry
+				     (file+headline "~/gtd/tickler.org" "Tickler")
+				     "* %i%? \n %U")))
+      (setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
+			       ("~/gtd/someday.org" :level . 1)
+			       ("~/gtd/tickler.org" :maxlevel . 2)))
+      (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+      )
     (use-package org-bullets
       :ensure t
       :config
@@ -156,7 +173,8 @@
     (use-package smartparens
       :ensure t
       :config
-      (require 'smartparens-config))
+      (require 'smartparens-config)
+      (sp-local-pair 'go-mode "{" nil :post-handlers '(("||\n[i]" "RET"))))
     (use-package exec-path-from-shell
       :if (memq window-system '(mac ns))
       :ensure t
@@ -168,7 +186,7 @@
       (popwin-mode t))
     (use-package hungry-delete
       :ensure t)
-      
+
   #+END_SRC
 * jump
 ** avy
@@ -241,7 +259,8 @@
 				  (add-hook 'before-save-hook 'gofmt-before-save)
 				  (setq tab-width 4)
 				  (setq indent-tabs-mode 1)
-				  (setq gofmt-command "goimports"))))
+				  (setq gofmt-command "goimports")
+				  (electric-indent-mode -1))))
       (use-package go-eldoc
 	:ensure t)
       (use-package company-go
