@@ -1,3 +1,4 @@
+
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -52,6 +53,7 @@
 (require 'dired-x)
 (setq browse-url-browser-function 'browse-url-chromium)
 (setq scroll-step 1)
+(setq scroll-conservatively 10000)
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
@@ -66,10 +68,10 @@
 PROMPT sets the `read-string prompt."
   (browse-url
    (concat query-url
-	   (url-hexify-string
-	    (if mark-active
-		(buffer-substring (region-beginning) (region-end))
-	      (read-string prompt))))))
+           (url-hexify-string
+            (if mark-active
+                (buffer-substring (region-beginning) (region-end))
+              (read-string prompt))))))
 
 (defmacro prelude-install-search-engine (search-engine-name search-engine-url search-engine-prompt)
   "Given some information regarding a search engine, install the interactive command to search through them"
@@ -100,11 +102,11 @@ PROMPT sets the `read-string prompt."
   (setq ivy-use-virtual-buffers t)
   (setq enable-recursive-minibuffers t)
   :bind(("C-s" . swiper)
-	("M-x" . counsel-M-x)
-	 ("C-h f" . counsel-describe-function)
-	 ("C-h v" . counsel-describe-variable)
-	 ("C-x C-f" . counsel-find-file)
-	 ("M-y" . counsel-yank-pop)))
+        ("M-x" . counsel-M-x)
+         ("C-h f" . counsel-describe-function)
+         ("C-h v" . counsel-describe-variable)
+         ("C-x C-f" . counsel-find-file)
+         ("M-y" . counsel-yank-pop)))
 
 (use-package evil
       :ensure t
@@ -116,7 +118,8 @@ PROMPT sets the `read-string prompt."
       (define-key evil-motion-state-map (kbd "C-y") nil)
       (define-key evil-motion-state-map (kbd "C-b") nil)
       (define-key evil-normal-state-map (kbd "C-p") nil)
-      (define-key evil-motion-state-map (kbd "C-f") nil))
+      (define-key evil-motion-state-map (kbd "C-f") nil)
+      (setq evil-scroll-count 1))
 ;;      (define-key evil-normal-state-map (kbd "C-n") nil)
 ;;      (define-key evil-insert-state-map (kbd "C-d") nil)
 ;;      (define-key evil-insert-state-map (kbd "C-e") nil)
@@ -190,25 +193,25 @@ PROMPT sets the `read-string prompt."
   :ensure t)
 
 (add-hook 'emacs-lisp-mode-hook (lambda()
-				  (company-mode)
-				  (hungry-delete-mode)
-				  (smartparens-mode)
-				  ))
+                                  (company-mode)
+                                  (hungry-delete-mode)
+                                  (smartparens-mode)
+                                  ))
 
 (use-package go-mode
   :ensure t
   :config
   (add-hook 'go-mode-hook (lambda ()
-			    (set (make-local-variable 'company-backends) '(company-go))
-			    (company-mode)
-			    (hungry-delete-mode)
-			    (flycheck-mode)
-			    (smartparens-mode)
-			    (go-eldoc-setup)
-			    (add-hook 'before-save-hook 'gofmt-before-save)
-			    (setq tab-width 4)
-			    (setq indent-tabs-mode 1)
-			    (setq gofmt-command "goimports"))))
+                            (set (make-local-variable 'company-backends) '(company-go))
+                            (company-mode)
+                            (hungry-delete-mode)
+                            (flycheck-mode)
+                            (smartparens-mode)
+                            (go-eldoc-setup)
+                            (add-hook 'before-save-hook 'gofmt-before-save)
+                            (setq tab-width 4)
+                            (setq indent-tabs-mode 1)
+                            (setq gofmt-command "goimports"))))
 (use-package go-eldoc
   :ensure t)
 (use-package company-go

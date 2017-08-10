@@ -56,6 +56,7 @@
     (require 'dired-x)
     (setq browse-url-browser-function 'browse-url-chromium)
     (setq scroll-step 1)
+    (setq scroll-conservatively 10000)
     (global-set-key (kbd "C-w") 'backward-kill-word)
     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   #+END_SRC
@@ -118,38 +119,39 @@
   #+END_SRC
 * evil
   #+BEGIN_SRC emacs-lisp
-    (use-package evil
-      :ensure t
-      :config
-      (evil-mode 1)
-      (setcdr evil-insert-state-map nil)
-      (define-key evil-insert-state-map [escape] 'evil-normal-state)
-      (define-key evil-motion-state-map (kbd "C-e") nil)
-      (define-key evil-motion-state-map (kbd "C-y") nil)
-      (define-key evil-motion-state-map (kbd "C-b") nil)
-      (define-key evil-normal-state-map (kbd "C-p") nil)
-      (define-key evil-motion-state-map (kbd "C-f") nil))
-;;      (define-key evil-normal-state-map (kbd "C-n") nil)
-;;      (define-key evil-insert-state-map (kbd "C-d") nil)
-;;      (define-key evil-insert-state-map (kbd "C-e") nil)
-;;      (define-key evil-insert-state-map (kbd "C-a") nil))
-    (use-package evil-leader
-      :ensure t
-      :config
-      (global-evil-leader-mode)
-      (evil-leader/set-key
-       "bb" 'ivy-switch-buffer
-       "SPC" 'counsel-M-x
-       "ff" 'counsel-find-file
-       "pf" 'counsel-projectile-find-file
-       "pp" 'counsel-projectile-switch-project
-       "pb" 'counsel-projectile-switch-to-buffer
-       "sp" 'counsel-projectile-ag
-       "sb" 'prelude-baidu
-       "sg" 'prelude-google
-       "sh" 'prelude-github
-       "fr" 'counsel-recentf
-       "jd" 'godef-jump))
+        (use-package evil
+          :ensure t
+          :config
+          (evil-mode 1)
+          (setcdr evil-insert-state-map nil)
+          (define-key evil-insert-state-map [escape] 'evil-normal-state)
+          (define-key evil-motion-state-map (kbd "C-e") nil)
+          (define-key evil-motion-state-map (kbd "C-y") nil)
+          (define-key evil-motion-state-map (kbd "C-b") nil)
+          (define-key evil-normal-state-map (kbd "C-p") nil)
+          (define-key evil-motion-state-map (kbd "C-f") nil)
+          (setq evil-scroll-count 1))
+    ;;      (define-key evil-normal-state-map (kbd "C-n") nil)
+    ;;      (define-key evil-insert-state-map (kbd "C-d") nil)
+    ;;      (define-key evil-insert-state-map (kbd "C-e") nil)
+    ;;      (define-key evil-insert-state-map (kbd "C-a") nil))
+        (use-package evil-leader
+          :ensure t
+          :config
+          (global-evil-leader-mode)
+          (evil-leader/set-key
+           "bb" 'ivy-switch-buffer
+           "SPC" 'counsel-M-x
+           "ff" 'counsel-find-file
+           "pf" 'counsel-projectile-find-file
+           "pp" 'counsel-projectile-switch-project
+           "pb" 'counsel-projectile-switch-to-buffer
+           "sp" 'counsel-projectile-ag
+           "sb" 'prelude-baidu
+           "sg" 'prelude-google
+           "sh" 'prelude-github
+           "fr" 'counsel-recentf
+           "jd" 'godef-jump))
   #+END_SRC
 * misc
   #+BEGIN_SRC emacs-lisp

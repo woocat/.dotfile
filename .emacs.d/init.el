@@ -20,11 +20,14 @@
    (quote
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(evil-leader/leader "SPC")
+ '(evil-want-C-u-scroll t)
  '(flycheck-check-syntax-automatically (quote (save mode-enabled)))
- '(flycheck-checker-error-threshold 20)
+ '(flycheck-checker-error-threshold 100)
  '(flycheck-disabled-checkers
    (quote
     (go-gofmt go-vet go-test go-errcheck go-unconvert go-megacheck)))
+ '(flycheck-error-list-minimum-level nil)
+ '(flycheck-navigation-minimum-level nil)
  '(package-selected-packages
    (quote
     (evil-magit magit ggtags evil-leader ace-window avy company-go go-eldoc go-mode powerline solarized-theme hungry-delete popwin exec-path-from-shell smartparens counsel-projectile counsel evil org org-bullets company use-package))))
