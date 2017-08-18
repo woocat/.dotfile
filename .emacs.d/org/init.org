@@ -102,37 +102,37 @@
                          "~/gtd/gtd.org"
                          "~/gtd/tickler.org"))
       (setq org-capture-templates '(("t" "Todo [inbox]" entry
-				     (file+headline "~/gtd/inbox.org" "Tasks")
-				     "* TODO %i%?")
-				    ("T" "Tickler" entry
-				     (file+headline "~/gtd/tickler.org" "Tickler")
-				     "* %i%? \n %U")))
+                                     (file+headline "~/gtd/inbox.org" "Tasks")
+                                     "* TODO %i%?")
+                                    ("T" "Tickler" entry
+                                     (file+headline "~/gtd/tickler.org" "Tickler")
+                                     "* %i%? \n %U")))
       (setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
-			       ("~/gtd/someday.org" :level . 1)
-			       ("~/gtd/tickler.org" :maxlevel . 2)))
+                               ("~/gtd/someday.org" :level . 1)
+                               ("~/gtd/tickler.org" :maxlevel . 2)))
       (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+      (setq org-src-fontify-natively t)
       )
     (use-package org-bullets
       :ensure t
       :config
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
   #+END_SRC
-* ivy
+* helm
   #+BEGIN_SRC emacs-lisp
-    (use-package counsel-projectile
-      :ensure t)
-    (use-package counsel
+    (use-package helm
       :ensure t
+      :bind
+      (("M-x" . helm-M-x)
+       ("C-x C-f" . helm-find-files)
+       ("C-x C-r" . helm-recentf))
       :config
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers t)
-      (setq enable-recursive-minibuffers t)
-      :bind(("C-s" . swiper)
-	    ("M-x" . counsel-M-x)
-	     ("C-h f" . counsel-describe-function)
-	     ("C-h v" . counsel-describe-variable)
-	     ("C-x C-f" . counsel-find-file)
-	     ("M-y" . counsel-yank-pop)))
+      (helm-mode 1)
+      (require 'helm-config))
+    (use-package helm-projectile
+      :ensure t)
+    (use-package helm-ag
+      :ensure t)
   #+END_SRC
 * evil
   #+BEGIN_SRC emacs-lisp
@@ -148,22 +148,13 @@
           (define-key evil-normal-state-map (kbd "C-p") nil)
           (define-key evil-motion-state-map (kbd "C-f") nil)
           (setq evil-scroll-count 1))
-    ;;      (define-key evil-normal-state-map (kbd "C-n") nil)
-    ;;      (define-key evil-insert-state-map (kbd "C-d") nil)
-    ;;      (define-key evil-insert-state-map (kbd "C-e") nil)
-    ;;      (define-key evil-insert-state-map (kbd "C-a") nil))
         (use-package evil-leader
           :ensure t
           :config
           (global-evil-leader-mode)
           (evil-leader/set-key
-           "bb" 'ivy-switch-buffer
-           "SPC" 'counsel-M-x
-           "ff" 'counsel-find-file
-           "pf" 'counsel-projectile-find-file
-           "pp" 'counsel-projectile-switch-project
-           "pb" 'counsel-projectile-switch-to-buffer
-           "sp" 'counsel-projectile-ag
+           "pf" 'helm-projectile-find-file
+           "sp" 'helm-projectile-ag
            "sb" 'prelude-baidu
            "sg" 'prelude-google
            "sh" 'prelude-github
@@ -175,8 +166,7 @@
     (use-package smartparens
       :ensure t
       :config
-      (require 'smartparens-config)
-      (sp-local-pair 'go-mode "{" nil :post-handlers '(("||\n[i]" "RET"))))
+      (require 'smartparens-config))
     (use-package exec-path-from-shell
       :if (memq window-system '(mac ns))
       :ensure t
@@ -261,8 +251,7 @@
 				  (add-hook 'before-save-hook 'gofmt-before-save)
 				  (setq tab-width 4)
 				  (setq indent-tabs-mode 1)
-				  (setq gofmt-command "goimports")
-				  (electric-indent-mode -1))))
+				  (setq gofmt-command "goimports"))))
       (use-package go-eldoc
 	:ensure t)
       (use-package company-go
@@ -273,3 +262,4 @@
     (set-register ?e (cons 'file "~/.emacs.d/org/init.org"))
     (set-register ?g (cons 'file "~/gtd/gtd.org"))
   #+END_SRC
+  

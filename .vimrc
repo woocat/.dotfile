@@ -45,7 +45,6 @@ endif
 syntax on
 set t_Co=256
 let mapleader = "\<Space>"
-set relativenumber
 set cursorline
 nnoremap <Leader>l :bn<CR>
 nnoremap <Leader>h :bp<CR>

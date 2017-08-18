@@ -150,7 +150,6 @@ bindsym $mod+r mode "resize"
 new_window pixel 1
 bindsym $mod+Shift+n scratchpad show
 bindsym $mod+n move scratchpad
-bindsym $mod+m exec emacsclient -c
 # bar
 bar {
     status_command i3status
@@ -164,10 +163,10 @@ bindsym $mod+c exec rofi -show
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%-
 bindsym XF86AudioMute exec --no-startup-id amixer sset Master toggle
+exec --no-startup-id sogou-qimpanel
 exec --no-startup-id fcitx
-exec --no-startup-id emacs --daemon
 exec_always --no-startup-id  feh --bg-scale ~/Pictures/wall.jpg
-exec --no-startup-id compton
+exec --no-startup-id compton --xrender-sync --xrender-sync-fence
 bindsym $mod+x [urgent=latest] focus
 gaps inner 5
 gaps outer 5
