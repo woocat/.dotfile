@@ -188,14 +188,12 @@
        :bind
        ("M-s" . avy-goto-char))
    #+END_SRC
-** ace-window
+** window-numbering
    #+BEGIN_SRC emacs-lisp
-     (use-package ace-window
+     (use-package window-numbering
        :ensure t
-       :bind
-       ("C-x o" . ace-window)
        :config
-       (setq aw-scope 'frame))
+       (window-numbering-mode 1))
    #+END_SRC
 * company
   #+BEGIN_SRC emacs-lisp
