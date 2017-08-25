@@ -59,6 +59,7 @@
     (setq scroll-conservatively 10000)
     (global-set-key (kbd "C-w") 'backward-kill-word)
     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+    (hl-line-mode 1)
   #+END_SRC
 * func 
   #+BEGIN_SRC emacs-lisp
@@ -128,11 +129,20 @@
        ("C-x C-r" . helm-recentf))
       :config
       (helm-mode 1)
-      (require 'helm-config))
+      (require 'helm-config)
+      (define-key helm-map [(control ?w)] #'backward-kill-word)
+      (helm-autoresize-mode 1))
     (use-package helm-projectile
       :ensure t)
     (use-package helm-ag
       :ensure t)
+    (use-package helm-swoop
+      :ensure t
+      :bind
+      ("C-s" . helm-swoop)
+      :config
+      (define-key helm-swoop-map [(control ?w)] #'backward-kill-word)
+      (setq helm-swoop-pre-input-function (lambda () "")))
   #+END_SRC
 * evil
   #+BEGIN_SRC emacs-lisp
