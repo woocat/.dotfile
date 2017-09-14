@@ -23,16 +23,18 @@
  '(evil-want-C-u-scroll t)
  '(exec-path
    (quote
-    ("/usr/local/sbin" "/usr/local/bin" "/usr/bin" "/usr/bin/site_perl" "/usr/bin/vendor_perl" "/usr/bin/core_perl" "/usr/lib/emacs/25.2/x86_64-unknown-linux-gnu" "/home/woocat/go/bin")))
+    ("/usr/lib/emacs/25.2/x86_64-unknown-linux-gnu" "/home/woocat/programming/golang/bin" "/sbin" "/usr/sbin" "/usr/bin" "/bin")))
  '(flycheck-check-syntax-automatically (quote (save mode-enabled)))
  '(flycheck-checker-error-threshold 100)
  '(flycheck-disabled-checkers
    (quote
     (go-gofmt go-vet go-test go-errcheck go-unconvert go-megacheck)))
+ '(google-translate-default-source-language "en")
+ '(google-translate-default-target-language "zh-CN")
  '(org-log-into-drawer t)
  '(package-selected-packages
    (quote
-    (helm-swoop helm evil-magit magit evil-leader ace-window avy company-go go-eldoc go-mode powerline solarized-theme hungry-delete popwin exec-path-from-shell smartparens evil org org-bullets company use-package))))
+    (google-translate rainbow-delimiters helm-swoop helm evil-magit magit evil-leader ace-window avy company-go go-eldoc go-mode powerline solarized-theme hungry-delete popwin exec-path-from-shell smartparens evil org org-bullets company use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

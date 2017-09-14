@@ -9,3 +9,5 @@
 #    insteadOf = https://github.com/
 #[url "gogs@dsp.ohko.cn:"]
 #    insteadOf = https://dsp.ohko.cn/ 
+[credential]
+	helper = store

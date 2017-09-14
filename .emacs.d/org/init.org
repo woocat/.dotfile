@@ -39,6 +39,10 @@
       :ensure t
       :config
       (powerline-default-theme))
+    (use-package rainbow-delimiters
+      :ensure t
+      :config
+      (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
   #+END_SRC
 * better-default
   #+BEGIN_SRC emacs-lisp
@@ -131,7 +135,11 @@
       (helm-mode 1)
       (require 'helm-config)
       (define-key helm-map [(control ?w)] #'backward-kill-word)
-      (helm-autoresize-mode 1))
+      (helm-autoresize-mode 1)
+      (advice-add 'helm-ff-filter-candidate-one-by-one
+                  :around (lambda (fcn file)
+                            (unless (string-match "\\(?:/\\|\\`\\)\\.\\{1,2\\}\\'" file)
+                              (funcall fcn file)))))
     (use-package helm-projectile
       :ensure t)
     (use-package helm-ag
@@ -188,6 +196,10 @@
       (popwin-mode t))
     (use-package hungry-delete
       :ensure t)
+    (use-package google-translate
+      :ensure t
+      :bind
+      ("C-c t" . google-translate-at-point))
 
   #+END_SRC
 * jump
