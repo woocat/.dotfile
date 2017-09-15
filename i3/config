@@ -9,7 +9,7 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod4
+set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -30,7 +30,7 @@ font pango:Terminus 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+Return exec terminator
 
 # kill focused window
 bindsym $mod+Shift+c kill
@@ -64,7 +64,7 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
+# bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
@@ -150,4 +150,9 @@ exec --no-startup-id sogou-qimpanel
 exec --no-startup-id fcitx
 exec_always --no-startup-id  feh --bg-scale ~/Pictures/wall.jpg
 exec --no-startup-id compton --xrender-sync --xrender-sync-fence
-bindsym $mod+x [urgent=latest] focus
+#bindsym $mod+x [urgent=latest] focus
+workspace 1 output HDMI2
+workspace 2 output HDMI2
+workspace 3 output DP1
+workspace 4 output DP1
+for_window [class="Galculator"] floating enable

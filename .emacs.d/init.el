@@ -32,7 +32,7 @@
  '(org-log-into-drawer t)
  '(package-selected-packages
    (quote
-    (helm-swoop helm evil-magit magit evil-leader ace-window avy company-go go-eldoc go-mode powerline solarized-theme hungry-delete popwin exec-path-from-shell smartparens evil org org-bullets company use-package))))
+    (monokai-theme helm-swoop helm evil-magit magit evil-leader ace-window avy company-go go-eldoc go-mode powerline solarized-theme hungry-delete popwin exec-path-from-shell smartparens evil org org-bullets company use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

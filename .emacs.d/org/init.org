@@ -3,9 +3,11 @@
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
     (menu-bar-mode -1)
-    (set-default-font "Inconsolata 15" nil t)
+    (set-default-font "Inconsolata 19" nil t)
     (setq inhibit-splash-screen t)
     (setq initial-frame-alist (quote ((fullscreen . maximized))))
+    ;;(use-package monokai-theme
+    ;;  :ensure t) 
     (use-package solarized-theme
       :ensure t
       :init
