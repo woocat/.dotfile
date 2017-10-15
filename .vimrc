@@ -14,6 +14,8 @@ Plugin 'bling/vim-airline'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'fatih/vim-go'
 Plugin 'tomasr/molokai'
+Plugin 'majutsushi/tagbar'
+
 
 ""Plugin 'octol/vim-cpp-enhanced-highlight'
 ""Plugin 'vim-airline/vim-airline-themes'
@@ -83,5 +85,5 @@ if executable('ag')
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
-
+nmap <C-o> t :TagbarToggle<CR>
 ""highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=Black guibg=#589A5D
