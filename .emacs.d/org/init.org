@@ -1,47 +1,92 @@
+* packages
+  #+BEGIN_SRC emacs-lisp
+    (defvar woocat/packages '(
+                              color-theme-sanityinc-tomorrow
+                              org
+                              org-bullets
+                              ivy
+                              swiper
+                              evil
+                              evil-leader
+                              smartparens
+                              exec-path-from-shell
+                              popwin
+                              hungry-delete
+                              google-translate
+                              avy
+                              window-numbering
+                              company
+                              magit
+                              evil-magit
+                              flycheck
+                              go-mode
+                              go-eldoc
+                              company-go
+                              rainbow-delimiters
+                              counsel-projectile
+                              smart-mode-line
+                              use-package
+                              diminish
+                              bind-key
+                              )) 
+    (setq package-selected-packages woocat/packages)
+    (package-install-selected-packages)
+  #+END_SRC
+* func 
+  #+BEGIN_SRC emacs-lisp
+    ;; function to open init file
+    (defun open-my-init-file()
+      (interactive)
+      (find-file "~/.emacs.d/org/init.org"))
+    ;; function and micro to open browser,and search from google,
+    ;; baidu, youtube, github and so on
+    (defun prelude-search (query-url prompt)
+      "Open the search url constructed with the QUERY-URL.
+    PROMPT sets the `read-string prompt."
+      (browse-url
+       (concat query-url
+               (url-hexify-string
+                (if mark-active
+                    (buffer-substring (region-beginning) (region-end))
+                  (read-string prompt))))))
+
+    (defmacro prelude-install-search-engine (search-engine-name search-engine-url search-engine-prompt)
+      "Given some information regarding a search engine, install the interactive command to search through them"
+      `(defun ,(intern (format "prelude-%s" search-engine-name)) ()
+         ,(format "Search %s with a query or region if any." search-engine-name)
+         (interactive)
+         (prelude-search ,search-engine-url ,search-engine-prompt)))
+
+    (prelude-install-search-engine "google"     "http://www.google.com/search?q="              "Google: ")
+    (prelude-install-search-engine "youtube"    "http://www.youtube.com/results?search_query=" "Search YouTube: ")
+    (prelude-install-search-engine "github"     "https://github.com/search?q="                 "Search GitHub: ")
+    (prelude-install-search-engine "baidu" "https://www.baidu.com/s?wd="              "Baidu:")
+    (defun switch-to-previous-buffer ()
+      "Switch to previously open buffer.
+    Repeated invocations toggle between the two most recently open buffers."
+      (interactive)
+      (switch-to-buffer (other-buffer (current-buffer) 1)))
+  #+END_SRC
+
 * ui
   #+BEGIN_SRC emacs-lisp
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
-    (menu-bar-mode -1)
-    (set-default-font "Inconsolata 19" nil t)
-    (setq inhibit-splash-screen t)
-    (setq initial-frame-alist (quote ((fullscreen . maximized))))
-    ;;(use-package monokai-theme
-    ;;  :ensure t) 
-    (use-package solarized-theme
-      :ensure t
-      :init
-      ;; make the fringe stand out from the background
-      (setq solarized-distinct-fringe-background nil)
-
-      ;; Don't change the font for some headings and titles
-      (setq solarized-use-variable-pitch nil)
-
-      ;; Use less bolding
-      (setq solarized-use-less-bold t)
-
-      ;; Use more italics
-      (setq solarized-use-more-italic t)
-
-      ;; Use less colors for indicators such as git:gutter, flycheck and similar
-      (setq solarized-emphasize-indicators nil)
-
-      ;; Don't change size of org-mode headlines (but keep other size-changes)
-      (setq solarized-scale-org-headlines nil)
-
-      ;; Avoid all font-size changes
-      (setq solarized-height-minus-1 1.0)
-      (setq solarized-height-plus-1 1.0)
-      (setq solarized-height-plus-2 1.0)
-      (setq solarized-height-plus-3 1.0)
-      (setq solarized-height-plus-4 1.0)
-      :config
-      (load-theme 'solarized-light t))
-    (use-package powerline
-      :ensure t
-      :config
-      (powerline-default-theme))
+        (tool-bar-mode -1)
+        (scroll-bar-mode -1)
+        (menu-bar-mode -1)
+        (set-default-font "Inconsolata 18" nil t)
+        (setq inhibit-splash-screen t)
+        (setq initial-frame-alist (quote ((fullscreen . maximized))))
+        (use-package color-theme-sanityinc-tomorrow
+          :ensure t)
+        (load-theme 'sanityinc-tomorrow-eighties t)
+        (use-package smart-mode-line
+          :ensure t
+          :config
+          (setq sml/theme 'respectful)
+          (setq sml/no-confirm-load-theme t)
+          (sml/setup))
   #+END_SRC
+
 * better-default
   #+BEGIN_SRC emacs-lisp
     (setq make-backup-files nil)
@@ -63,36 +108,7 @@
     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
     (hl-line-mode 1)
   #+END_SRC
-* func 
-  #+BEGIN_SRC emacs-lisp
-    ;; function to open init file
-    (defun open-my-init-file()
-      (interactive)
-      (find-file "~/.emacs.d/org/init.org"))
-    ;; function and micro to open browser,and search from google,
-    ;; baidu, youtube, github and so on
-    (defun prelude-search (query-url prompt)
-      "Open the search url constructed with the QUERY-URL.
-    PROMPT sets the `read-string prompt."
-      (browse-url
-       (concat query-url
-	       (url-hexify-string
-		(if mark-active
-		    (buffer-substring (region-beginning) (region-end))
-		  (read-string prompt))))))
 
-    (defmacro prelude-install-search-engine (search-engine-name search-engine-url search-engine-prompt)
-      "Given some information regarding a search engine, install the interactive command to search through them"
-      `(defun ,(intern (format "prelude-%s" search-engine-name)) ()
-	 ,(format "Search %s with a query or region if any." search-engine-name)
-	 (interactive)
-	 (prelude-search ,search-engine-url ,search-engine-prompt)))
-
-    (prelude-install-search-engine "google"     "http://www.google.com/search?q="              "Google: ")
-    (prelude-install-search-engine "youtube"    "http://www.youtube.com/results?search_query=" "Search YouTube: ")
-    (prelude-install-search-engine "github"     "https://github.com/search?q="                 "Search GitHub: ")
-    (prelude-install-search-engine "baidu" "https://www.baidu.com/s?wd="              "Baidu:")
-  #+END_SRC
 * org
   #+BEGIN_SRC emacs-lisp
     (use-package org
@@ -121,58 +137,52 @@
       :config
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
   #+END_SRC
-* helm
-  #+BEGIN_SRC emacs-lisp
-    (use-package helm
-      :ensure t
-      :bind
-      (("M-x" . helm-M-x)
-       ("C-x C-f" . helm-find-files)
-       ("C-x C-r" . helm-recentf))
-      :config
-      (helm-mode 1)
-      (require 'helm-config)
-      (define-key helm-map [(control ?w)] #'backward-kill-word)
-      (helm-autoresize-mode 1))
-    (use-package helm-projectile
-      :ensure t)
-    (use-package helm-ag
-      :ensure t)
-    (use-package helm-swoop
-      :ensure t
-      :bind
-      ("C-s" . helm-swoop)
-      :config
-      (define-key helm-swoop-map [(control ?w)] #'backward-kill-word)
-      (setq helm-swoop-pre-input-function (lambda () "")))
-  #+END_SRC
+
+* navigation
+** ivy
+   #+BEGIN_SRC emacs-lisp
+     (use-package ivy
+       :ensure t
+       :config
+       (ivy-mode 1)
+       (setq ivy-use-virtual-buffers t)
+       (setq enable-recursive-minibuffers t)
+       (global-set-key "\C-s" 'swiper)
+       (global-set-key "\M-x" 'counsel-M-x))
+     (use-package swiper
+       :ensure t)
+     (use-package counsel-projectile
+       :ensure t)
+   #+END_SRC
+
 * evil
   #+BEGIN_SRC emacs-lisp
-        (use-package evil
-          :ensure t
-          :config
-          (evil-mode 1)
-          (setcdr evil-insert-state-map nil)
-          (define-key evil-insert-state-map [escape] 'evil-normal-state)
-          (define-key evil-motion-state-map (kbd "C-e") nil)
-          (define-key evil-motion-state-map (kbd "C-y") nil)
-          (define-key evil-motion-state-map (kbd "C-b") nil)
-          (define-key evil-normal-state-map (kbd "C-p") nil)
-          (define-key evil-motion-state-map (kbd "C-f") nil)
-          (setq evil-scroll-count 1))
-        (use-package evil-leader
-          :ensure t
-          :config
-          (global-evil-leader-mode)
-          (evil-leader/set-key
-           "pf" 'helm-projectile-find-file
-           "sp" 'helm-projectile-ag
-           "sb" 'prelude-baidu
-           "sg" 'prelude-google
-           "sh" 'prelude-github
-           "fr" 'counsel-recentf
-           "jd" 'godef-jump))
+    (use-package evil
+      :ensure t
+      :config
+      (evil-mode 1)
+      (setcdr evil-insert-state-map nil)
+      (define-key evil-insert-state-map [escape] 'evil-normal-state)
+      (define-key evil-motion-state-map (kbd "C-e") nil)
+      (define-key evil-motion-state-map (kbd "C-y") nil)
+      (define-key evil-motion-state-map (kbd "C-b") nil)
+      (define-key evil-normal-state-map (kbd "C-p") nil)
+      (define-key evil-motion-state-map (kbd "C-f") nil)
+      (setq evil-scroll-count 1))
+    (use-package evil-leader
+      :ensure t
+      :config
+      (setq evil-leader/leader "SPC")
+      (setq evil-want-C-u-scroll t)
+      (global-evil-leader-mode)
+      (evil-leader/set-key
+       "pf" 'counsel-projectile-find-file
+       "sp" 'counsel-projectile-ag
+       "sb" 'prelude-baidu
+       "sg" 'prelude-google
+       "sh" 'prelude-github))
   #+END_SRC
+
 * misc
   #+BEGIN_SRC emacs-lisp
     (use-package smartparens
@@ -190,8 +200,19 @@
       (popwin-mode t))
     (use-package hungry-delete
       :ensure t)
-
+    (use-package google-translate
+      :ensure t
+      :bind
+      ("C-c t" . google-translate-at-point)
+      :config
+      (setq google-translate-default-source-language "en")
+      (setq google-translate-default-target-language "zh-CN"))
+    (use-package rainbow-delimiters
+      :ensure t
+      :config
+      (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
   #+END_SRC
+
 * jump
 ** avy
    #+BEGIN_SRC emacs-lisp
@@ -200,13 +221,15 @@
        :bind
        ("M-s" . avy-goto-char))
    #+END_SRC
+
 ** window-numbering
    #+BEGIN_SRC emacs-lisp
-     (use-package window-numbering
-       :ensure t
-       :config
-       (window-numbering-mode 1))
+     ;;(use-package window-numbering
+     ;;  :ensure t
+     ;;  :config
+     ;;  (window-numbering-mode 1))
    #+END_SRC
+
 * company
   #+BEGIN_SRC emacs-lisp
     (use-package company
@@ -223,6 +246,7 @@
       (define-key company-active-map (kbd "C-p") #'company-select-previous)
       (define-key company-active-map (kbd "C-w") nil))
   #+END_SRC
+
 * git
   #+BEGIN_SRC emacs-lisp
     (use-package magit
@@ -230,13 +254,15 @@
     (use-package evil-magit
       :ensure t)
   #+END_SRC
+
 * programming
 ** synatax check
 *** flycheck
     #+BEGIN_SRC emacs-lisp
       (use-package flycheck
-	:ensure t)
+        :ensure t)
     #+END_SRC
+
 ** language
 *** elisp
     #+BEGIN_SRC emacs-lisp
@@ -246,6 +272,7 @@
 					(smartparens-mode)
 					))
     #+END_SRC
+
 *** go
     #+BEGIN_SRC emacs-lisp
       (use-package go-mode
@@ -267,9 +294,15 @@
       (use-package company-go
 	:ensure t)
     #+END_SRC
+    
 * keybingding 
   #+BEGIN_SRC emacs-lisp
     (set-register ?e (cons 'file "~/.emacs.d/org/init.org"))
     (set-register ?g (cons 'file "~/gtd/gtd.org"))
+    (set-register ?w (cons 'file "~/go/src/git.algor.tech/"))
+    (evil-leader/set-key-for-mode 'go-mode "jd" 'godef-jump)
+    (define-key evil-normal-state-map (kbd "SPC TAB") 'switch-to-previous-buffer)
   #+END_SRC
+  
+  
   
