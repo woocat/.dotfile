@@ -28,6 +28,7 @@
                               use-package
                               diminish
                               bind-key
+                              ggtags
                               )) 
     (setq package-selected-packages woocat/packages)
     (package-install-selected-packages)
@@ -66,6 +67,9 @@
     Repeated invocations toggle between the two most recently open buffers."
       (interactive)
       (switch-to-buffer (other-buffer (current-buffer) 1)))
+    (defun my-imenu-rescan ()
+      (interactive)
+      (imenu 'func))
   #+END_SRC
 
 * ui
@@ -148,7 +152,8 @@
        (setq ivy-use-virtual-buffers t)
        (setq enable-recursive-minibuffers t)
        (global-set-key "\C-s" 'swiper)
-       (global-set-key "\M-x" 'counsel-M-x))
+       (global-set-key "\M-x" 'counsel-M-x)
+       (global-set-key (kbd "C-x C-i") 'counsel-imenu))
      (use-package swiper
        :ensure t)
      (use-package counsel-projectile
@@ -256,6 +261,13 @@
   #+END_SRC
 
 * programming
+** ggtags
+   #+BEGIN_SRC emacs-lisp
+     (use-package ggtags
+       :ensure t
+       :config
+       (add-hook 'c-mode-hook 'ggtags-mode 1))
+   #+END_SRC
 ** synatax check
 *** flycheck
     #+BEGIN_SRC emacs-lisp
