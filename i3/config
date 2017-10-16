@@ -75,7 +75,7 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+a focus parent
+#bindsym $mod+a focus parent
 
 # focus the child container
 #bindsym $mod+d focus child
@@ -135,7 +135,7 @@ bindsym $mod+Shift+n scratchpad show
 bindsym $mod+n move scratchpad
 # bar
 bar {
-    status_command i3status
+    	status_command i3blocks
 	position top
 	font pango:monofur for Powerline 8
 }
@@ -146,7 +146,6 @@ bindsym $mod+c exec rofi -show
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 5%+
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 5%-
 bindsym XF86AudioMute exec --no-startup-id amixer sset Master toggle
-exec --no-startup-id sogou-qimpanel
 exec --no-startup-id fcitx
 exec_always --no-startup-id  feh --bg-scale ~/Pictures/wall.jpg
 exec --no-startup-id compton --xrender-sync --xrender-sync-fence
