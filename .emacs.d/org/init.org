@@ -178,7 +178,6 @@
       :ensure t
       :config
       (setq evil-leader/leader "SPC")
-      (setq evil-want-C-u-scroll t)
       (global-evil-leader-mode)
       (evil-leader/set-key
        "pf" 'counsel-projectile-find-file
@@ -311,7 +310,7 @@
   #+BEGIN_SRC emacs-lisp
     (set-register ?e (cons 'file "~/.emacs.d/org/init.org"))
     (set-register ?g (cons 'file "~/gtd/gtd.org"))
-    (set-register ?w (cons 'file "~/go/src/git.algor.tech/"))
+    (set-register ?w (cons 'file "~/programming/golang/src/git.algor.tech/"))
     (evil-leader/set-key-for-mode 'go-mode "jd" 'godef-jump)
     (define-key evil-normal-state-map (kbd "SPC TAB") 'switch-to-previous-buffer)
   #+END_SRC
