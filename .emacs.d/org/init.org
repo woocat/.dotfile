@@ -22,6 +22,7 @@
                               go-mode
                               go-eldoc
                               company-go
+                              go-guru
                               rainbow-delimiters
                               counsel-projectile
                               smart-mode-line
@@ -29,6 +30,8 @@
                               diminish
                               bind-key
                               ggtags
+                              js2-mode
+                              company-tern
                               )) 
     (setq package-selected-packages woocat/packages)
     (package-install-selected-packages)
@@ -93,23 +96,28 @@
 
 * better-default
   #+BEGIN_SRC emacs-lisp
-    (setq make-backup-files nil)
-    (setq auto-save-default nil)
-    (setq auto-save-list-file-prefix nil)
-    ;;(global-auto-revert-mode t)
-    (fset 'yes-or-nop 'y-or-n-p)
-    (setq dired-recursive-copies 'always)
-    (setq dired-recursive-deletes 'always)
-    (put 'dired-find-alternate-file 'disabled nil)
-    (with-eval-after-load 'dired
-      (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
-    (setq ediff-split-window-function 'split-window-horizontally)
-    (require 'dired-x)
-    (setq browse-url-browser-function 'browse-url-chromium)
-    (setq scroll-step 1)
-    (setq scroll-conservatively 10000)
-    (global-set-key (kbd "C-w") 'backward-kill-word)
-    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+       (setq make-backup-files nil)
+       (setq auto-save-default nil)
+       (setq auto-save-list-file-prefix nil)
+       ;;(global-auto-revert-mode t)
+       (fset 'yes-or-nop 'y-or-n-p)
+       (setq dired-recursive-copies 'always)
+       (setq dired-recursive-deletes 'always)
+       (put 'dired-find-alternate-file 'disabled nil)
+       (with-eval-after-load 'dired
+         (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
+       (setq ediff-split-window-function 'split-window-horizontally)
+       (require 'dired-x)
+       (setq browse-url-browser-function 'browse-url-chromium)
+       (setq scroll-step 1)
+       (setq scroll-conservatively 10000)
+       (global-set-key (kbd "C-w") 'backward-kill-word)
+       (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+       (setq uniquify-buffer-name-style 'forward)
+       (setq save-interprogram-paste-before-kill t
+             mouse-yank-at-point t
+             ediff-window-setup-function 'ediff-setup-windows-plain)
+    (global-set-key (kbd "M-/") 'hippie-expand)
     (hl-line-mode 1)
   #+END_SRC
 
@@ -287,25 +295,48 @@
 *** go
     #+BEGIN_SRC emacs-lisp
       (use-package go-mode
-	:ensure t
-	:config
-	(add-hook 'go-mode-hook (lambda ()
-				  (set (make-local-variable 'company-backends) '(company-go))
-				  (company-mode)
-				  (hungry-delete-mode)
-				  (flycheck-mode)
-				  (smartparens-mode)
-				  (go-eldoc-setup)
-				  (add-hook 'before-save-hook 'gofmt-before-save)
-				  (setq tab-width 4)
-				  (setq indent-tabs-mode 1)
-				  (setq gofmt-command "goimports"))))
+        :ensure t
+        :config
+        (add-hook 'go-mode-hook (lambda ()
+                                  (set (make-local-variable 'company-backends) '(company-go))
+                                  (company-mode)
+                                  (hungry-delete-mode)
+                                  (flycheck-mode)
+                                  (smartparens-mode)
+                                  (go-eldoc-setup)
+                                  (add-hook 'before-save-hook 'gofmt-before-save)
+                                  (setq tab-width 4)
+                                  (setq indent-tabs-mode 1)
+                                  (setq gofmt-command "goimports"))))
+      (use-package go-guru
+        :ensure t)
       (use-package go-eldoc
-	:ensure t)
+        :ensure t)
       (use-package company-go
-	:ensure t)
+        :ensure t)
     #+END_SRC
     
+*** javascript
+    #+BEGIN_SRC emacs-lisp
+      (use-package js2-mode
+        :ensure t
+        :config
+        (setq auto-mode-alist
+              (append
+               '(("\\.js\\'" . js2-mode))
+               auto-mode-alist))
+      ;;  (add-to-list 'company-backends 'company-tern)
+        (add-hook 'js2-mode-hook (lambda ()
+                                   (set (make-local-variable 'company-backends) '(company-tern))
+                                   (tern-mode)
+                                   (company-mode)
+                                   (hungry-delete-mode)
+                                   (smartparens-mode)
+                                   )))
+      (use-package company-tern
+        :ensure t
+        :config)
+    #+END_SRC
 * keybingding 
   #+BEGIN_SRC emacs-lisp
     (set-register ?e (cons 'file "~/.emacs.d/org/init.org"))
