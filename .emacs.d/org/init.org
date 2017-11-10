@@ -1,7 +1,7 @@
 * packages
   #+BEGIN_SRC emacs-lisp
     (defvar woocat/packages '(
-                              color-theme-sanityinc-tomorrow
+                              flatui-theme
                               org
                               org-bullets
                               ivy
@@ -32,6 +32,7 @@
                               ggtags
                               js2-mode
                               company-tern
+                              gotest
                               )) 
     (setq package-selected-packages woocat/packages)
     (package-install-selected-packages)
@@ -77,21 +78,18 @@
 
 * ui
   #+BEGIN_SRC emacs-lisp
-        (tool-bar-mode -1)
-        (scroll-bar-mode -1)
-        (menu-bar-mode -1)
-        (set-default-font "Inconsolata 18" nil t)
-        (setq inhibit-splash-screen t)
-        (setq initial-frame-alist (quote ((fullscreen . maximized))))
-        (use-package color-theme-sanityinc-tomorrow
-          :ensure t)
-        (load-theme 'sanityinc-tomorrow-eighties t)
-        (use-package smart-mode-line
-          :ensure t
-          :config
-          (setq sml/theme 'respectful)
-          (setq sml/no-confirm-load-theme t)
-          (sml/setup))
+    (set-default-font "Inconsolata 18" nil t)
+    (setq inhibit-splash-screen t)
+    (setq initial-frame-alist (quote ((fullscreen . maximized))))
+    (use-package flatui-theme
+      :ensure t)
+    (use-package smart-mode-line
+      :ensure t)
+    (load-theme 'flatui t)
+    (setq sml/theme 'respectful)
+    (setq sml/no-confirm-load-theme t)
+    (sml/setup)
+    ;;(set-face-attribute 'fringe nil :background nil)
   #+END_SRC
 
 * better-default
@@ -314,6 +312,8 @@
         :ensure t)
       (use-package company-go
         :ensure t)
+      (use-package gotest
+        :ensure t)
     #+END_SRC
     
 *** javascript
@@ -337,10 +337,25 @@
         :ensure t
         :config)
     #+END_SRC
+    
+*** c or c++
+    1.generate c/c++ tags 
+
+    cd /usr/include && MAKEOBJDIRPREFIX=~/obj gtags -O && cd ~/proj1 && gtags && cd ~/proj2 && gtags
+    #+BEGIN_SRC emacs-lisp
+      (setq-default c-basic-offset 4)
+      ;; Please note `file-truename' must be used!
+      ;;(setenv "GTAGSLIBPATH" (concat "/usr/include"
+      ;;                               ":"
+      ;;                               (file-truename "~/workspace/beeswax_c/beeswax")
+      ;;                               ))
+      ;;(setenv "MAKEOBJDIRPREFIX" (file-truename "~/obj/"))
+      ;;(setq company-backends '((company-dabbrev-code company-gtags)))
+    #+END_SRC
 * keybingding 
   #+BEGIN_SRC emacs-lisp
     (set-register ?e (cons 'file "~/.emacs.d/org/init.org"))
-    (set-register ?g (cons 'file "~/gtd/gtd.org"))
+    (set-register ?g (cons 'file "~/workspace/gtd/gtd.org"))
     (set-register ?w (cons 'file "~/programming/golang/src/git.algor.tech/"))
     (evil-leader/set-key-for-mode 'go-mode "jd" 'godef-jump)
     (define-key evil-normal-state-map (kbd "SPC TAB") 'switch-to-previous-buffer)
