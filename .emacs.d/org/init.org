@@ -1,9 +1,7 @@
 * packages
   #+BEGIN_SRC emacs-lisp
     (defvar woocat/packages '(
-                              color-theme-sanityinc-tomorrow
                               org
-                              org-bullets
                               ivy
                               swiper
                               evil
@@ -30,8 +28,7 @@
                               diminish
                               bind-key
                               ggtags
-                              js2-mode
-                              company-tern
+                              flatui-theme
                               )) 
     (setq package-selected-packages woocat/packages)
     (package-install-selected-packages)
@@ -80,12 +77,12 @@
         (tool-bar-mode -1)
         (scroll-bar-mode -1)
         (menu-bar-mode -1)
-        (set-default-font "Inconsolata 18" nil t)
+        (set-default-font "Source Code Pro 18" nil t)
         (setq inhibit-splash-screen t)
         (setq initial-frame-alist (quote ((fullscreen . maximized))))
-        (use-package color-theme-sanityinc-tomorrow
+        (use-package flatui-theme
           :ensure t)
-        (load-theme 'sanityinc-tomorrow-eighties t)
+        (load-theme 'flatui t)
         (use-package smart-mode-line
           :ensure t
           :config
@@ -119,6 +116,7 @@
              ediff-window-setup-function 'ediff-setup-windows-plain)
     (global-set-key (kbd "M-/") 'hippie-expand)
     (hl-line-mode 1)
+
   #+END_SRC
 
 * org
@@ -144,10 +142,6 @@
       (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
       (setq org-src-fontify-natively t)
       )
-    (use-package org-bullets
-      :ensure t
-      :config
-      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
   #+END_SRC
 
 * navigation
@@ -272,9 +266,7 @@
 ** ggtags
    #+BEGIN_SRC emacs-lisp
      (use-package ggtags
-       :ensure t
-       :config
-       (add-hook 'c-mode-hook 'ggtags-mode 1))
+       :ensure t)
    #+END_SRC
 ** synatax check
 *** flycheck
@@ -315,28 +307,29 @@
         :ensure t)
       (use-package company-go
         :ensure t)
+      (sp-local-pair 'go-mode "{" nil :post-handlers '((my-create-newline-and-enter-sexp "RET")))
+      (sp-local-pair 'go-mode "(" nil :post-handlers '((gofmt-befor-save "RET")))
+      (sp-local-pair 'go-mode "[" nil :post-handlers '((gofmt-befor-save "RET")))
+      
+      (defun my-create-newline-and-enter-sexp (&rest _ignored)
+        "Open a new brace or bracket expression, with relevant newlines and indent. "
+        (newline)
+        (forward-line -1)
+        (indent-according-to-mode))
     #+END_SRC
-    
-*** javascript
+
+*** c or c++
+    cd /usr/include && MAKEOBJDIRPREFIX=~/obj gtags -O && cd ~/proj1 && gtags && cd ~/proj2 && gtags
     #+BEGIN_SRC emacs-lisp
-      (use-package js2-mode
-        :ensure t
-        :config
-        (setq auto-mode-alist
-              (append
-               '(("\\.js\\'" . js2-mode))
-               auto-mode-alist))
-      ;;  (add-to-list 'company-backends 'company-tern)
-        (add-hook 'js2-mode-hook (lambda ()
-                                   (set (make-local-variable 'company-backends) '(company-tern))
-                                   (tern-mode)
-                                   (company-mode)
-                                   (hungry-delete-mode)
-                                   (smartparens-mode)
-                                   )))
-      (use-package company-tern
-        :ensure t
-        :config)
+      (setenv "GTAGSLIBPATH" (concat "/usr/include"
+                                     ":"
+                                     (file-truename "~/programming/c/redis")))
+      (setenv "MAKEOBJDIRPREFIX" (file-truename "~/programming/c/redis/.ggtags"))
+      (add-hook 'c-mode-hook (lambda ()
+                               (company-mode)
+                               (setq-default c-basic-offset 4)
+                               (setq company-backends '((company-dabbrev-code company-gtags)))
+                               (ggtags-mode 1)))
     #+END_SRC
 * keybingding 
   #+BEGIN_SRC emacs-lisp
@@ -344,6 +337,7 @@
     (set-register ?g (cons 'file "~/gtd/gtd.org"))
     (set-register ?w (cons 'file "~/go/src/git.algor.tech/"))
     (evil-leader/set-key-for-mode 'go-mode "jd" 'godef-jump)
+    (evil-leader/set-key-for-mode 'c-mode "jd" 'ggtags-find-definition)
     (define-key evil-normal-state-map (kbd "SPC TAB") 'switch-to-previous-buffer)
   #+END_SRC
   
