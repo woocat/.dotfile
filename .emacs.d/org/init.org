@@ -28,7 +28,6 @@
                               diminish
                               bind-key
                               ggtags
-                              flatui-theme
                               )) 
     (setq package-selected-packages woocat/packages)
     (package-install-selected-packages)
@@ -80,9 +79,9 @@
         (set-default-font "Source Code Pro 18" nil t)
         (setq inhibit-splash-screen t)
         (setq initial-frame-alist (quote ((fullscreen . maximized))))
-        (use-package flatui-theme
+        (use-package monokai-theme
           :ensure t)
-        (load-theme 'flatui t)
+        (load-theme 'monokai t)
         (use-package smart-mode-line
           :ensure t
           :config
