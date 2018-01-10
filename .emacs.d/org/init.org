@@ -1,42 +1,41 @@
 * packages
   #+BEGIN_SRC emacs-lisp
     (defvar woocat/packages '(
-                              flatui-theme
-                              org
-                              org-bullets
-                              ivy
-                              swiper
-                              evil
-                              evil-leader
-                              smartparens
-                              exec-path-from-shell
-                              popwin
-                              hungry-delete
-                              google-translate
-                              avy
-                              window-numbering
-                              company
-                              magit
-                              evil-magit
-                              flycheck
-                              go-mode
-                              go-eldoc
-                              company-go
-                              go-guru
-                              rainbow-delimiters
-                              counsel-projectile
-                              smart-mode-line
-                              use-package
-                              diminish
-                              bind-key
-                              ggtags
-                              js2-mode
-                              company-tern
-                              gotest
-                              )) 
+			      org
+			      ivy
+			      swiper
+			      evil
+			      evil-leader
+			      smartparens
+			      exec-path-from-shell
+			      popwin
+			      hungry-delete
+			      google-translate
+			      avy
+			      window-numbering
+			      company
+			      magit
+			      evil-magit
+			      flycheck
+			      go-mode
+			      go-eldoc
+			      company-go
+			      go-guru
+			      rainbow-delimiters
+			      counsel-projectile
+			      smart-mode-line
+			      use-package
+			      diminish
+			      bind-key
+			      ggtags
+			      js2-mode
+			      company-tern
+			      gotest
+			      )) 
     (setq package-selected-packages woocat/packages)
     (package-install-selected-packages)
   #+END_SRC
+
 * func 
   #+BEGIN_SRC emacs-lisp
     ;; function to open init file
@@ -50,17 +49,17 @@
     PROMPT sets the `read-string prompt."
       (browse-url
        (concat query-url
-               (url-hexify-string
-                (if mark-active
-                    (buffer-substring (region-beginning) (region-end))
-                  (read-string prompt))))))
+	       (url-hexify-string
+		(if mark-active
+		    (buffer-substring (region-beginning) (region-end))
+		  (read-string prompt))))))
 
     (defmacro prelude-install-search-engine (search-engine-name search-engine-url search-engine-prompt)
       "Given some information regarding a search engine, install the interactive command to search through them"
       `(defun ,(intern (format "prelude-%s" search-engine-name)) ()
-         ,(format "Search %s with a query or region if any." search-engine-name)
-         (interactive)
-         (prelude-search ,search-engine-url ,search-engine-prompt)))
+	 ,(format "Search %s with a query or region if any." search-engine-name)
+	 (interactive)
+	 (prelude-search ,search-engine-url ,search-engine-prompt)))
 
     (prelude-install-search-engine "google"     "http://www.google.com/search?q="              "Google: ")
     (prelude-install-search-engine "youtube"    "http://www.youtube.com/results?search_query=" "Search YouTube: ")
@@ -74,78 +73,131 @@
     (defun my-imenu-rescan ()
       (interactive)
       (imenu 'func))
+    (defun eshell-toggle ()
+      "Opens up a new shell in the directory associated with the
+    current buffer's file. The eshell is renamed to match that
+    directory to make multiple eshell windows easier."
+      (interactive)
+      (let* ((parent (if (buffer-file-name)
+			 (file-name-directory (buffer-file-name))
+		       default-directory))
+	     (height (/ (window-total-height) 3))
+	     (name   (car (last (split-string parent "/" t)))))
+	(split-window-vertically (- height))
+	(other-window 1)
+	;; if eshell buffer exsit, then switch to eshell buffer
+	;; (insert (concat "cd" parent))
+	;; (rename-buffer (concat "*eshell: " name "*"))
+	;; (eshell-send-input)
+	(eshell "new")
+	(rename-buffer (concat "*eshell: " name "*"))
+	(eshell-send-input)))
+    ;Clear the eshell buffer.
+    (defun eshell/clear ()      
+       (let ((eshell-buffer-maximum-lines 0)) (eshell-truncate-buffer)))
+
+    (defun woocat/switch-project (&optional arg)
+      "Switch to a project we have visited before.
+
+    Invokes the command referenced by
+    `projectile-switch-project-action' on switch.  With a prefix ARG
+    invokes `projectile-commander' instead of
+    `projectile-switch-project-action.'"
+      (interactive "P")
+      (ivy-read (projectile-prepend-project-name "Switch to project: ")
+		projectile-known-projects
+		:preselect (and (projectile-project-p)
+				(abbreviate-file-name (projectile-project-root)))
+		:action (lambda (dir)
+			  (dired-at-point dir))
+		:require-match t
+		:caller 'woocat/switch-project))
   #+END_SRC
 
 * ui
   #+BEGIN_SRC emacs-lisp
-    (set-default-font "Inconsolata 18" nil t)
-    (setq inhibit-splash-screen t)
-    (setq initial-frame-alist (quote ((fullscreen . maximized))))
-    (use-package flatui-theme
-      :ensure t)
-    (use-package smart-mode-line
-      :ensure t)
-    (load-theme 'flatui t)
-    (setq sml/theme 'respectful)
-    (setq sml/no-confirm-load-theme t)
-    (sml/setup)
-    ;;(set-face-attribute 'fringe nil :background nil)
+	(set-default-font "Inconsolata 18" nil t)
+	(menu-bar-mode -1)
+	(scroll-bar-mode -1)
+	(tool-bar-mode -1)
+	(setq inhibit-splash-screen t)
+	(setq initial-frame-alist (quote ((fullscreen . maximized))))
+	(use-package monokai-theme
+	  :ensure t)
+	;;(use-package smart-mode-line
+	;;  :ensure t)
+	(load-theme 'monokai t)
+	;;(setq sml/theme 'respectful)
+	;;(setq sml/no-confirm-load-theme t)
+	;;(sml/setup)
+	;;(set-face-attribute 'fringe nil :background nil)
   #+END_SRC
-
+  
 * better-default
   #+BEGIN_SRC emacs-lisp
-       (setq make-backup-files nil)
-       (setq auto-save-default nil)
-       (setq auto-save-list-file-prefix nil)
-       ;;(global-auto-revert-mode t)
-       (fset 'yes-or-nop 'y-or-n-p)
-       (setq dired-recursive-copies 'always)
-       (setq dired-recursive-deletes 'always)
-       (put 'dired-find-alternate-file 'disabled nil)
-       (with-eval-after-load 'dired
-         (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
-       (setq ediff-split-window-function 'split-window-horizontally)
-       (require 'dired-x)
-       (setq browse-url-browser-function 'browse-url-chromium)
-       (setq scroll-step 1)
-       (setq scroll-conservatively 10000)
-       (global-set-key (kbd "C-w") 'backward-kill-word)
-       (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-       (setq uniquify-buffer-name-style 'forward)
-       (setq save-interprogram-paste-before-kill t
-             mouse-yank-at-point t
-             ediff-window-setup-function 'ediff-setup-windows-plain)
+    (setq make-backup-files nil)
+    (setq auto-save-default nil)
+    (setq auto-save-list-file-prefix nil)
+    ;;(global-auto-revert-mode t)
+    (defalias 'yes-or-no-p 'y-or-n-p)
+    (setq dired-recursive-copies 'always)
+    (setq dired-recursive-deletes 'always)
+    (put 'dired-find-alternate-file 'disabled nil)
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
+    (setq ediff-split-window-function 'split-window-horizontally)
+    (require 'dired-x)
+    (setq browse-url-browser-function 'browse-url-chromium)
+    (setq scroll-step 1)
+    (setq scroll-conservatively 10000)
+    (global-set-key (kbd "C-w") 'backward-kill-word)
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+    (setq uniquify-buffer-name-style 'forward)
+    (setq save-interprogram-paste-before-kill t
+	  mouse-yank-at-point t
+	  ediff-window-setup-function 'ediff-setup-windows-plain)
+
     (global-set-key (kbd "M-/") 'hippie-expand)
-    (hl-line-mode 1)
+    ;; windows enlarge or shrink
+    (global-set-key (kbd "S-C-h") 'shrink-window-horizontally)
+    (global-set-key (kbd "S-C-l") 'enlarge-window-horizontally)
+    (global-set-key (kbd "S-C-j") 'shrink-window)
+    (global-set-key (kbd "S-C-k") 'enlarge-window)
+    ;; set magit-ediff-dwim-show-on-hunks to non-nil, ediff should only show
+    ;; 2 windows
+    (setq magit-ediff-dwim-show-on-hunks t)
+
+    (define-key dired-mode-map
+      (kbd "p")
+      (lambda () (interactive) (dired-up-directory)))
+    ;;(define-key ivy-minibuffer-map
+    ;;  (kbd "C-a")
+    ;;  )
   #+END_SRC
+
 
 * org
   #+BEGIN_SRC emacs-lisp
-    (use-package org
-      :ensure t
-      :bind
-      (("C-c c" . org-capture)
-      ("C-c a" . org-agenda))
-      :config
-      (setq org-agenda-files '("~/gtd/inbox.org"
-                         "~/gtd/gtd.org"
-                         "~/gtd/tickler.org"))
-      (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                                     (file+headline "~/gtd/inbox.org" "Tasks")
-                                     "* TODO %i%?")
-                                    ("T" "Tickler" entry
-                                     (file+headline "~/gtd/tickler.org" "Tickler")
-                                     "* %i%? \n %U")))
-      (setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
-                               ("~/gtd/someday.org" :level . 1)
-                               ("~/gtd/tickler.org" :maxlevel . 2)))
-      (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
-      (setq org-src-fontify-natively t)
-      )
-    (use-package org-bullets
-      :ensure t
-      :config
-      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+      (use-package org
+        :ensure t
+        :bind
+        (("C-c c" . org-capture)
+        ("C-c a" . org-agenda))
+        :config
+        (setq org-agenda-files '("~/workspace/gtd/work.org"))
+        (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                                       (file+headline "~/gtd/inbox.org" "Tasks")
+                                       "* TODO %i%?")
+                                      ("T" "Tickler" entry
+                                       (file+headline "~/gtd/tickler.org" "Tickler")
+                                       "* %i%? \n %U")))
+        (setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
+                                 ("~/gtd/someday.org" :level . 1)
+                                 ("~/gtd/tickler.org" :maxlevel . 2)))
+        (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+        (setq org-src-fontify-natively t)
+        )
+
   #+END_SRC
 
 * navigation
@@ -155,7 +207,6 @@
        :ensure t
        :config
        (ivy-mode 1)
-       (setq ivy-use-virtual-buffers t)
        (setq enable-recursive-minibuffers t)
        (global-set-key "\C-s" 'swiper)
        (global-set-key "\M-x" 'counsel-M-x)
@@ -163,7 +214,9 @@
      (use-package swiper
        :ensure t)
      (use-package counsel-projectile
-       :ensure t)
+       :ensure t
+       :config
+       (projectile-mode 1))
    #+END_SRC
 
 * evil
@@ -260,7 +313,10 @@
 * git
   #+BEGIN_SRC emacs-lisp
     (use-package magit
-      :ensure t)
+      :ensure t
+      :config (define-key magit-mode-map
+		(kbd "q")
+		(lambda() (interactive) (magit-mode-bury-buffer t))))
     (use-package evil-magit
       :ensure t)
   #+END_SRC
@@ -269,10 +325,9 @@
 ** ggtags
    #+BEGIN_SRC emacs-lisp
      (use-package ggtags
-       :ensure t
-       :config
-       (add-hook 'c-mode-hook 'ggtags-mode 1))
+       :ensure t)
    #+END_SRC
+
 ** synatax check
 *** flycheck
     #+BEGIN_SRC emacs-lisp
@@ -339,26 +394,35 @@
     #+END_SRC
     
 *** c or c++
-    1.generate c/c++ tags 
-
     cd /usr/include && MAKEOBJDIRPREFIX=~/obj gtags -O && cd ~/proj1 && gtags && cd ~/proj2 && gtags
     #+BEGIN_SRC emacs-lisp
       (setq-default c-basic-offset 4)
-      ;; Please note `file-truename' must be used!
-      ;;(setenv "GTAGSLIBPATH" (concat "/usr/include"
-      ;;                               ":"
-      ;;                               (file-truename "~/workspace/beeswax_c/beeswax")
-      ;;                               ))
-      ;;(setenv "MAKEOBJDIRPREFIX" (file-truename "~/obj/"))
-      ;;(setq company-backends '((company-dabbrev-code company-gtags)))
+      (add-hook 'c-mode-hook (lambda()
+         (ggtags-mode 1)
+         (company-mode)
+         (setenv "GTAGSLIBPATH" (concat "/usr/include"
+                                        ":"
+                                        (file-truename "~/programming/c/redis/.ggtags/")))
+         (setenv "MAKEOBJDIRPREFIX" (file-truename "~/programming/c/redis/.ggtags/"))
+         (setq company-backends '((company-dabbrev-code company-gtags)))
+         (hungry-delete-mode)
+         ))
     #+END_SRC
+
 * keybingding 
   #+BEGIN_SRC emacs-lisp
-    (set-register ?e (cons 'file "~/.emacs.d/org/init.org"))
-    (set-register ?g (cons 'file "~/workspace/gtd/gtd.org"))
-    (set-register ?w (cons 'file "~/programming/golang/src/git.algor.tech/"))
+    ;;    (set-register ?e (cons 'file "~/.emacs.d/org/init.org"))
+    ;;    (set-register ?g (cons 'file "~/workspace/gtd/gtd.org"))
+    ;;    (set-register ?w (cons 'file "~/programming/golang/src/git.algor.tech/"))
+
     (evil-leader/set-key-for-mode 'go-mode "jd" 'godef-jump)
+    (evil-leader/set-key-for-mode 'c-mode "jd" 'ggtags-find-definition)
     (define-key evil-normal-state-map (kbd "SPC TAB") 'switch-to-previous-buffer)
+    (define-key evil-motion-state-map (kbd "TAB") nil)
+    (global-set-key (kbd "C-x p") 'woocat/switch-project)
+    (global-set-key (kbd "C-x C-r") 'counsel-recentf)
+    (global-set-key (kbd "C-x g") 'magit-status)
+    (global-set-key (kbd "C-x k") 'kill-this-buffer)
   #+END_SRC
   
   

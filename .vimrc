@@ -5,26 +5,13 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-surround'
 Plugin 'kien/ctrlp.vim'
-Plugin 'bling/vim-airline'
-Plugin 'easymotion/vim-easymotion'
 Plugin 'fatih/vim-go'
-Plugin 'tomasr/molokai'
-Plugin 'majutsushi/tagbar'
+Plugin 'valloric/youcompleteme'
+Plugin 'easymotion/vim-easymotion'
 
 
-""Plugin 'octol/vim-cpp-enhanced-highlight'
-""Plugin 'vim-airline/vim-airline-themes'
-""Plugin 'scrooloose/nerdcommenter'
-""Plugin 'valloric/youcompleteme'
-""Plugin 'rdnetto/ycm-generator'
-""Plugin 'SirVer/ultisnips'
-""Plugin 'honza/vim-snippets'
-""Plugin 'ervandew/supertab'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -46,44 +33,24 @@ endif
 "set nu
 syntax on
 set t_Co=256
-let mapleader = "\<Space>"
-set cursorline
-nnoremap <Leader>l :bn<CR>
-nnoremap <Leader>h :bp<CR>
-"save file
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>wq :wq!<CR>
-nnoremap <Leader>q :q!<CR>
-"CtrlP Most recently file
-nnoremap <Leader>r :CtrlPMRUFiles<CR>
-"CtrlP Most recently file
-nnoremap <Leader>b :CtrlPBuffer<CR>
-nnoremap <Leader>t :NERDTreeToggle<CR>
-"Sudo 
-nnoremap <Leader>sudo :w !sudo tee % 
-"go to define
-nnoremap <Leader>jd :GoDef<CR>
-nnoremap <Leader>jh :GoDoc<CR>
-"toggle nerdtree
-nnoremap <Leader>tn :NERDTreeToggle<CR>
 hi VertSplit cterm=None
 set ts=4
 set shiftwidth=4
 nnoremap <C-a> 0
 nnoremap <C-e> $
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline_powerline_fonts = 1
-let g:ctrlp_show_hidden = 1
-let g:ctrlp_use_caching = 0
 " The Silver Searcher
 if executable('ag')
   " Use ag over grep
   set grepprg=ag\ --nogroup\ --nocolor
-
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+   let g:ctrlp_use_caching = 0
 endif
-nmap <C-o> t :TagbarToggle<CR>
-""highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE gui=NONE guifg=Black guibg=#589A5D
+
+set completeopt-=preview
+
+" 输入第2个字符开始补全
+" youcompleteme
+let g:ycm_min_num_of_chars_for_completion=2
+let g:ycm_key_list_select_completion = ['<c-n>']
+let g:ycm_key_list_previous_completion = ['<c-p>']
