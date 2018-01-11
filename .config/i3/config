@@ -5,7 +5,8 @@ floating_modifier $mod
 focus_follows_mouse yes
 popup_during_fullscreen smart
 workspace_auto_back_and_forth yes
-font pango:monofur for Powerline 8 
+font pango:Misc Termsyn, Wuncon Siji
+default_orientation horizontal
 
 ## Gaps
 gaps inner 20
@@ -42,11 +43,12 @@ bindsym $mod+Shift+n scratchpad show
 bindsym $mod+n move scratchpad
 bindsym $mod+Shift+c kill
 
-# Workspace
-set $ws1 "1:WEB"
-set $ws2 "2:Win"
-set $ws3 "3:EMACS"
-set $ws4 "4:TTY"
+
+## Terminal
+set $ws1 "1: WEB"
+set $ws2 "2: MED"
+set $ws3 "3: LAB"
+set $ws4 "4: TTY"
 ## switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
@@ -81,8 +83,9 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Startup
+exec_always feh --bg-scale ~/pictures/apple.jpeg
+exec_always ~/.config/polybar/launch_polybar.sh
 exec_always fcitx
-exec_always feh --bg-scale ~/pictures/wall.jpg
 exec_always compton --xrender-sync --xrender-sync-fence
 
 # Color
