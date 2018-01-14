@@ -50,7 +50,7 @@ scroll-down = i3wm-wsprev
 
 modules-left = xwindow
 modules-center = i3
-modules-right = cpu memory volume date
+modules-right = wifi cpu memory volume date
 
 
 [module/xwindow]
@@ -83,7 +83,7 @@ label-urgent-padding = 1
 
 [module/wifi]
 type = internal/network
-interface = wlp3s0
+interface = wlp2s0
 interval = 1.0
 udspeed-minwidth = 0
 

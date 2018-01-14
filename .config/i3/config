@@ -17,7 +17,7 @@ smart_borders on
 # keybindings
 ## Quick Launch
 bindsym $mod+Return exec termite
-bindsym $mod+d exec rofi -show run
+bindsym $mod+d exec rofi -show drun
 
 ## Window Focus
 bindsym $mod+h focus left
@@ -72,21 +72,15 @@ for_window [class="(?i)securecrt|wireshark-gtk"] floating enable, border pixel 2
 for_window [class="(?i)securecrt"] move window to scratchpad, scratchpad show
 for_window [window_role="telnet"] move window to scratchpad, scratchpad show, floating enable, border pixel 0, resize set 1366 250, move absolute position 0 518
 
-# Monitor
-workspace $ws1 output HDMI2
-workspace $ws2 output HDMI2
-workspace $ws3 output DP1
-workspace $ws4 output DP1
-
 # Misc
 bindsym $mod+Shift+r restart
 bindsym $mod+Shift+q exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Startup
-exec_always feh --bg-scale ~/pictures/apple.jpeg
+exec_always feh --bg-scale ~/pictures/red_white.jpg
 exec_always ~/.config/polybar/launch_polybar.sh
-exec_always fcitx
-exec_always compton --xrender-sync --xrender-sync-fence
+exec_always sogou-qimpanel-watchdog
+exec_always compton --config ~/.config/compton/compton.conf --xrender-sync --xrender-sync-fence
 
 # Color
 set $cbg	 "#f26262"
