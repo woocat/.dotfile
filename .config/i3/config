@@ -17,7 +17,7 @@ smart_borders on
 # keybindings
 ## Quick Launch
 bindsym $mod+Return exec termite
-bindsym $mod+d exec rofi -show run
+bindsym $mod+d exec rofi -show drun
 
 ## Window Focus
 bindsym $mod+h focus left
@@ -45,10 +45,10 @@ bindsym $mod+Shift+c kill
 
 
 ## Terminal
-set $ws1 "1: WEB"
-set $ws2 "2: MED"
-set $ws3 "3: LAB"
-set $ws4 "4: TTY"
+set $ws1 "1: LAB"
+set $ws2 "2: TTY"
+set $ws3 "3: WEB"
+set $ws4 "4: MED"
 ## switch to workspace
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
