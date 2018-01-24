@@ -52,20 +52,14 @@ export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
 export XMODIFIERS=@im=fcitx
 export GTAGSLABEL=ctags
-export PATH=$HOME/programming/golang/bin:/usr/local/bin:$HOME/.local/bin:$PATH
-##export LC_CTYPE=zh_CN.UTF-8
-xset +fp /home/woocat/.local/share/fonts/
-xset +fp /usr/share/fonts/
+export PATH=$HOME/programming/go/bin:/usr/local/bin:$HOME/.local/bin:$PATH
+export GOPATH=~/programming/go
+export FZF_DEFAULT_COMMAND="ag -g"
 eval `ssh-agent`
-#ssh-add ~/.ssh/dsp-jp.pem
-#ssh-add ~/.ssh/dsp-us_CA.pem
 ssh-add ~/.ssh/id_rsa
 ssh-add ~/.ssh/dsp-data
 ssh-add ~/.ssh/data-uswest2.pem
 ssh-add ~/.ssh/data-uswest.pem
-export GOPATH=~/programming/golang
 xrandr --output DP1   --mode 1920x1080 --right-of HDMI2
-export FZF_DEFAULT_COMMAND="ag -g"
-export TERM=xterm
 
-exec i3
+exec i3 -V >>  ~/.i3log/i3log-$(date +'%F-%k-%M-%S') 2>&1

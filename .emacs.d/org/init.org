@@ -116,21 +116,24 @@
 
 * ui
   #+BEGIN_SRC emacs-lisp
-	(set-default-font "Inconsolata 18" nil t)
-	(menu-bar-mode -1)
-	(scroll-bar-mode -1)
-	(tool-bar-mode -1)
-	(setq inhibit-splash-screen t)
-	(setq initial-frame-alist (quote ((fullscreen . maximized))))
-	(use-package monokai-theme
-	  :ensure t)
-	;;(use-package smart-mode-line
-	;;  :ensure t)
-	(load-theme 'monokai t)
-	;;(setq sml/theme 'respectful)
-	;;(setq sml/no-confirm-load-theme t)
-	;;(sml/setup)
-	;;(set-face-attribute 'fringe nil :background nil)
+    (set-default-font "Inconsolata 18" nil t)
+    (dolist (charset '(kana han symbol cjk-misc bopomofo))
+      (set-fontset-font (frame-parameter nil 'font)
+			charset (font-spec :family "WenQuanYi Micro Hei" :size 24)))
+    (menu-bar-mode -1)
+    (scroll-bar-mode -1)
+    (tool-bar-mode -1)
+    (setq inhibit-splash-screen t)
+    (setq initial-frame-alist (quote ((fullscreen . maximized))))
+    ;;(use-package smart-mode-line
+    ;;  :ensure t)
+    (use-package color-theme-sanityinc-tomorrow
+      :ensure t)
+    (load-theme 'sanityinc-tomorrow-eighties t)
+    ;;(setq sml/theme 'respectful)
+    ;;(setq sml/no-confirm-load-theme t)
+    ;;(sml/setup)
+    ;;(set-face-attribute 'fringe nil :background nil)
   #+END_SRC
   
 * better-default
@@ -174,7 +177,6 @@
     ;;  (kbd "C-a")
     ;;  )
   #+END_SRC
-
 
 * org
   #+BEGIN_SRC emacs-lisp
@@ -348,29 +350,36 @@
 *** go
     #+BEGIN_SRC emacs-lisp
       (use-package go-mode
-        :ensure t
-        :config
-        (add-hook 'go-mode-hook (lambda ()
-                                  (set (make-local-variable 'company-backends) '(company-go))
-                                  (company-mode)
-                                  (hungry-delete-mode)
-                                  (flycheck-mode)
-                                  (smartparens-mode)
-                                  (go-eldoc-setup)
-                                  (add-hook 'before-save-hook 'gofmt-before-save)
-                                  (setq tab-width 4)
-                                  (setq indent-tabs-mode 1)
-                                  (setq gofmt-command "goimports"))))
+	:ensure t
+	:config
+	(add-hook 'go-mode-hook (lambda ()
+				  (set (make-local-variable 'company-backends) '(company-go))
+				  (company-mode)
+				  (hungry-delete-mode)
+				  (flycheck-mode)
+				  (smartparens-mode)
+				  (go-eldoc-setup)
+				  (add-hook 'before-save-hook 'gofmt-before-save)
+				  (setq tab-width 4)
+				  (setq indent-tabs-mode 1)
+				  (setq gofmt-command "goimports"))))
+      (use-package go-rename
+	:ensure t)
       (use-package go-guru
-        :ensure t)
+	:ensure t)
       (use-package go-eldoc
-        :ensure t)
+	:ensure t)
       (use-package company-go
-        :ensure t)
+	:ensure t)
       (use-package gotest
-        :ensure t)
+	:ensure t)
     #+END_SRC
     
+*** json
+    #+BEGIN_SRC emacs-lisp
+      (use-package json-reformat
+	:ensure t)
+    #+END_SRC
 *** javascript
     #+BEGIN_SRC emacs-lisp
       (use-package js2-mode
@@ -409,6 +418,21 @@
          ))
     #+END_SRC
 
+    
+*** python
+    #+BEGIN_SRC emacs-lisp
+      (use-package anaconda-mode
+	:ensure t
+	:config
+	(add-hook 'python-mode-hook (lambda()
+				      (anaconda-mode)
+				      (anaconda-eldoc-mode)
+				      (company-mode)
+				      (set (make-local-variable 'company-backends) '(company-anaconda)))))
+      (use-package company-anaconda
+	:ensure t)
+    #+END_SRC
+    
 * keybingding 
   #+BEGIN_SRC emacs-lisp
     ;;    (set-register ?e (cons 'file "~/.emacs.d/org/init.org"))
