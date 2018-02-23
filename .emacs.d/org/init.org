@@ -127,9 +127,9 @@
     (setq initial-frame-alist (quote ((fullscreen . maximized))))
     ;;(use-package smart-mode-line
     ;;  :ensure t)
-    (use-package color-theme-sanityinc-tomorrow
+    (use-package solarized-theme
       :ensure t)
-    (load-theme 'sanityinc-tomorrow-eighties t)
+    (load-theme 'solarized-light t)
     ;;(setq sml/theme 'respectful)
     ;;(setq sml/no-confirm-load-theme t)
     ;;(sml/setup)
@@ -138,6 +138,7 @@
   
 * better-default
   #+BEGIN_SRC emacs-lisp
+    (tooltip-mode -1)
     (setq make-backup-files nil)
     (setq auto-save-default nil)
     (setq auto-save-list-file-prefix nil)
@@ -180,26 +181,33 @@
 
 * org
   #+BEGIN_SRC emacs-lisp
-      (use-package org
-        :ensure t
-        :bind
-        (("C-c c" . org-capture)
-        ("C-c a" . org-agenda))
-        :config
-        (setq org-agenda-files '("~/workspace/gtd/work.org"))
-        (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                                       (file+headline "~/gtd/inbox.org" "Tasks")
-                                       "* TODO %i%?")
-                                      ("T" "Tickler" entry
-                                       (file+headline "~/gtd/tickler.org" "Tickler")
-                                       "* %i%? \n %U")))
-        (setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
-                                 ("~/gtd/someday.org" :level . 1)
-                                 ("~/gtd/tickler.org" :maxlevel . 2)))
-        (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
-        (setq org-src-fontify-natively t)
-        )
-
+    (use-package org
+      :ensure t
+      :config
+      (define-key org-mode-map (kbd "C-c [") nil)
+      (define-key org-mode-map (kbd "C-c ]") nil)
+      (define-key org-mode-map (kbd "C-c ;") nil)
+      (setq org-agenda-files (quote ("~/workspace/org/")))
+      (setq org-todo-keywords
+	    (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+		    (sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)"))))
+      (setq org-todo-state-tags-triggers
+	    (quote (("CANCELLED" ("CANCELLED" . t))
+		    ("WAITING" ("WAITING" . t))
+		    ("HOLD" ("WAITING") ("HOLD" . t))
+		    (done ("WAITING") ("HOLD"))
+		    ("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
+		    ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
+		    ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+      (setq org-capture-templates
+	    (quote (("t" "todo" entry (file "~/workspace/org/refile.org")
+		     "* TODO %?\n  %u\n  %A\n")
+		    ("n" "note" entry (file "~//workspace/org/refile.org")
+		     "* %? :NOTE:\n  %u\n  %A\n")
+		    )))
+      (setq org-refile-targets (quote ((nil :maxlevel . 9)
+				       (org-agenda-files :maxlevel . 9))))
+      )
   #+END_SRC
 
 * navigation
@@ -253,7 +261,8 @@
     (use-package smartparens
       :ensure t
       :config
-      (require 'smartparens-config))
+      (require 'smartparens-config)
+      (sp-local-pair 'go-mode "{" "}" :post-handlers '(:add ("||\n[i]" "RET"))))
     (use-package exec-path-from-shell
       :if (memq window-system '(mac ns))
       :ensure t
@@ -268,10 +277,7 @@
     (use-package google-translate
       :ensure t
       :bind
-      ("C-c t" . google-translate-at-point)
-      :config
-      (setq google-translate-default-source-language "en")
-      (setq google-translate-default-target-language "zh-CN"))
+      ("C-c t" . google-translate-at-point))
     (use-package rainbow-delimiters
       :ensure t
       :config
@@ -405,17 +411,19 @@
 *** c or c++
     cd /usr/include && MAKEOBJDIRPREFIX=~/obj gtags -O && cd ~/proj1 && gtags && cd ~/proj2 && gtags
     #+BEGIN_SRC emacs-lisp
-      (setq-default c-basic-offset 4)
+      (setq c-default-style "linux"
+	    c-basic-offset 4)
       (add-hook 'c-mode-hook (lambda()
-         (ggtags-mode 1)
-         (company-mode)
-         (setenv "GTAGSLIBPATH" (concat "/usr/include"
-                                        ":"
-                                        (file-truename "~/programming/c/redis/.ggtags/")))
-         (setenv "MAKEOBJDIRPREFIX" (file-truename "~/programming/c/redis/.ggtags/"))
-         (setq company-backends '((company-dabbrev-code company-gtags)))
-         (hungry-delete-mode)
-         ))
+	 (ggtags-mode 1)
+	 (smartparens-mode)
+	 (company-mode)
+	 (setenv "GTAGSLIBPATH" (concat "/usr/include"
+					":"
+					(file-truename "~/programming/c/redis/.ggtags/")))
+	 (setenv "MAKEOBJDIRPREFIX" (file-truename "~/programming/c/redis/.ggtags/"))
+	 (setq company-backends '((company-dabbrev-code company-gtags)))
+	 (hungry-delete-mode)
+	 ))
     #+END_SRC
 
     
@@ -447,6 +455,11 @@
     (global-set-key (kbd "C-x C-r") 'counsel-recentf)
     (global-set-key (kbd "C-x g") 'magit-status)
     (global-set-key (kbd "C-x k") 'kill-this-buffer)
+    (global-set-key (kbd "C-c l") 'org-store-link)
+    (global-set-key (kbd "C-c a") 'org-agenda)
+    (global-set-key (kbd "C-c c") 'org-capture)
+    (setq google-translate-default-target-language "zh-CN")
+    (setq google-translate-default-source-language "en")
   #+END_SRC
   
   

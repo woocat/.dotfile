@@ -83,6 +83,7 @@ alias cdgtd="cd ~/workspace/gtd"
 alias tattach="tmux attach"
 alias tls="tmux ls"
 alias dotfile="cd ~/.dotfile"
+alias rsync="rsync -avcPz"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 cd $GOPATH/src/git.algor.tech/lx
