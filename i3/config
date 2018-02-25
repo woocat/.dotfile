@@ -92,12 +92,12 @@ client.urgent           $cbg    $cunfo  $ccolor $cindi  $cunfo
 
 bindsym $mod+d exec rofi -show run
  
-exec --no-startup-id fcitx
-exec_always --no-startup-id  feh --bg-scale ~/pictures/background.jpg
-exec --no-startup-id compton  --xrender-sync --xrender-sync-fence --config ~/.config/compton/compton.conf 
-exec --no-startup-id xset s 0 
-exec --no-startup-id nm-applet
-exec_always xrandr --output eDP1  --off --output HDMI1 --auto
-exec --no-startup-id setxkbmap -option "ctrl:swapcaps" 
-
-for_window [class="Galculator"] floating enable
+# exec --no-startup-id fcitx
+# exec_always --no-startup-id  feh --bg-scale ~/pictures/background.jpg
+# exec --no-startup-id compton  --xrender-sync --xrender-sync-fence --config ~/.config/compton/compton.conf 
+# exec --no-startup-id xset s 0 
+# exec --no-startup-id nm-applet
+# exec_always xrandr --output eDP1  --off --output HDMI1 --auto
+# exec --no-startup-id setxkbmap -option "ctrl:swapcaps" 
+# 
+# for_window [class="Galculator"] floating enable

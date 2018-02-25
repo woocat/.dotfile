@@ -32,6 +32,7 @@
     (setq package-selected-packages woocat/packages)
     (package-install-selected-packages)
   #+END_SRC
+
 * func 
   #+BEGIN_SRC emacs-lisp
     ;; function to open init file
@@ -73,21 +74,21 @@
 
 * ui
   #+BEGIN_SRC emacs-lisp
-        (tool-bar-mode -1)
-        (scroll-bar-mode -1)
-        (menu-bar-mode -1)
-        (set-default-font "Source Code Pro 18" nil t)
-        (setq inhibit-splash-screen t)
-        (setq initial-frame-alist (quote ((fullscreen . maximized))))
-        (use-package monokai-theme
-          :ensure t)
-        (load-theme 'monokai t)
-        (use-package smart-mode-line
-          :ensure t
-          :config
-          (setq sml/theme 'respectful)
-          (setq sml/no-confirm-load-theme t)
-          (sml/setup))
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+    (menu-bar-mode -1)
+    (set-default-font "Inconsolata 17" nil t)
+    (setq inhibit-splash-screen t)
+    (setq initial-frame-alist (quote ((fullscreen . maximized))))
+    (use-package monokai-theme
+      :ensure t)
+    (load-theme 'monokai t)
+    (use-package smart-mode-line
+      :ensure t
+      :config
+      (setq sml/theme 'respectful)
+      (setq sml/no-confirm-load-theme t)
+      (sml/setup))
   #+END_SRC
 
 * better-default
