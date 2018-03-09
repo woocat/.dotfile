@@ -127,9 +127,9 @@
     (setq initial-frame-alist (quote ((fullscreen . maximized))))
     ;;(use-package smart-mode-line
     ;;  :ensure t)
-    (use-package solarized-theme
+    (use-package leuven-theme
       :ensure t)
-    (load-theme 'solarized-light t)
+    (load-theme 'leuven t)
     ;;(setq sml/theme 'respectful)
     ;;(setq sml/no-confirm-load-theme t)
     ;;(sml/setup)
@@ -227,6 +227,8 @@
        :ensure t
        :config
        (projectile-mode 1))
+     (use-package smex
+       :ensure t)
    #+END_SRC
 
 * evil
