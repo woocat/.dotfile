@@ -22,7 +22,7 @@
  '(company-require-match nil)
  '(custom-safe-themes
    (quote
-    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "cdfc5c44f19211cfff5994221078d7d5549eeb9feda4f595a2fd8ca40467776c" "15348febfa2266c4def59a08ef2846f6032c0797f001d7b9148f30ace0d08bcf" default)))
+    ("8ed752276957903a270c797c4ab52931199806ccd9f0c3bb77f6f4b9e71b9272" default)))
  '(eldoc-idle-delay 0.9)
  '(evil-want-C-i-jump t)
  '(evil-want-C-u-scroll t)
@@ -70,8 +70,4 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(dired-directory ((t (:background "white" :foreground "blue" :weight bold))))
- '(dired-header ((t (:background "white" :foreground "blue" :weight bold))))
- '(mode-line ((t (:background "#335EA8" :foreground "#85CEEB" :box nil :overline "#eee8d5" :underline "#cccec4"))))
- '(mode-line-highlight ((t nil)))
- '(mode-line-inactive ((t (:background "#9B9C97" :foreground "#F0F0EF" :box nil :overline "#eee8d5" :underline "#cccec4")))))
+ )

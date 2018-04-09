@@ -1,38 +1,9 @@
-* packages
-  #+BEGIN_SRC emacs-lisp
-    (defvar woocat/packages '(
-			      org
-			      ivy
-			      swiper
-			      evil
-			      evil-leader
-			      smartparens
-			      exec-path-from-shell
-			      popwin
-			      hungry-delete
-			      google-translate
-			      avy
-			      window-numbering
-			      company
-			      magit
-			      evil-magit
-			      flycheck
-			      go-mode
-			      go-eldoc
-			      company-go
-			      go-guru
-			      rainbow-delimiters
-			      counsel-projectile
-			      smart-mode-line
-			      use-package
-			      diminish
-			      bind-key
-			      ggtags
-			      js2-mode
-			      company-tern
-			      gotest
-			      )) 
-    (setq package-selected-packages woocat/packages)
+* Packages
+  #+Begin_SRC emacs-lisp
+    (defadvice use-package (around catbrain/add-to-packages (NAME &rest ARGS) activate)
+      (add-to-list 'package-selected-packages NAME)
+      ad-do-it
+      )
     (package-install-selected-packages)
   #+END_SRC
 
@@ -46,6 +17,7 @@
     ;; baidu, youtube, github and so on
     (defun prelude-search (query-url prompt)
       "Open the search url constructed with the QUERY-URL.
+      
     PROMPT sets the `read-string prompt."
       (browse-url
        (concat query-url
@@ -127,13 +99,11 @@
     (setq initial-frame-alist (quote ((fullscreen . maximized))))
     ;;(use-package smart-mode-line
     ;;  :ensure t)
-    (use-package leuven-theme
+    (use-package monokai-theme
       :ensure t)
-    (load-theme 'leuven t)
-    ;;(setq sml/theme 'respectful)
-    ;;(setq sml/no-confirm-load-theme t)
-    ;;(sml/setup)
-    ;;(set-face-attribute 'fringe nil :background nil)
+    (load-theme 'monokai t)
+    (set-language-environment "UTF-8")
+    (set-default-coding-systems 'utf-8)
   #+END_SRC
   
 * better-default
@@ -358,6 +328,7 @@
 *** go
     #+BEGIN_SRC emacs-lisp
       (use-package go-mode
+	:defer t
 	:ensure t
 	:config
 	(add-hook 'go-mode-hook (lambda ()
@@ -372,14 +343,19 @@
 				  (setq indent-tabs-mode 1)
 				  (setq gofmt-command "goimports"))))
       (use-package go-rename
+	:defer t
 	:ensure t)
       (use-package go-guru
+	:defer t
 	:ensure t)
       (use-package go-eldoc
+	:defer t
 	:ensure t)
       (use-package company-go
+	:defer t
 	:ensure t)
       (use-package gotest
+	:defer t
 	:ensure t)
     #+END_SRC
     
@@ -440,7 +416,7 @@
 				      (company-mode)
 				      (set (make-local-variable 'company-backends) '(company-anaconda)))))
       (use-package company-anaconda
-	:ensure t)
+        :ensure t)
     #+END_SRC
     
 * keybingding 
@@ -462,7 +438,31 @@
     (global-set-key (kbd "C-c c") 'org-capture)
     (setq google-translate-default-target-language "zh-CN")
     (setq google-translate-default-source-language "en")
-  #+END_SRC
+    (global-set-key (kbd "C-=") 'er/expand-region)
+    (defun find-init-file()
+      (interactive)
+      (find-file-other-window user-init-file))
+    (defun counsel-ag-from-lx(&optional initial-input initial-directory extra-ag-args ag-prompt)
+      (interactive)
+      (counsel-require-program (car (split-string counsel-ag-base-command)))
+	(setq initial-directory "/home/woocat/programming/go/src/git.algor.tech/lx")
+	      (ivy-set-prompt 'counsel-ag-from-lx counsel-prompt-function)
+	      (setq counsel--git-grep-dir (or initial-directory default-directory))
+	      (ivy-read (or ag-prompt (car (split-string counsel-ag-base-command)))
+			(lambda (string)
+			  (counsel-ag-function string counsel-ag-base-command extra-ag-args))
+			:initial-input initial-input
+			:dynamic-collection t
+			:keymap counsel-ag-map
+			:history 'counsel-git-grep-history
+			:action #'counsel-git-grep-action
+			:unwind (lambda ()
+				  (counsel-delete-process)
+				  (swiper--cleanup))
+			:caller 'counsel-ag-from-lx))
+
+
+	  #+END_SRC
   
   
   
