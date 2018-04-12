@@ -23,7 +23,6 @@
                               go-guru
                               rainbow-delimiters
                               counsel-projectile
-                              smart-mode-line
                               use-package
                               diminish
                               bind-key
@@ -83,40 +82,33 @@
     (use-package monokai-theme
       :ensure t)
     (load-theme 'monokai t)
-    (use-package smart-mode-line
-      :ensure t
-      :config
-      (setq sml/theme 'respectful)
-      (setq sml/no-confirm-load-theme t)
-      (sml/setup))
   #+END_SRC
 
 * better-default
   #+BEGIN_SRC emacs-lisp
-       (setq make-backup-files nil)
-       (setq auto-save-default nil)
-       (setq auto-save-list-file-prefix nil)
-       ;;(global-auto-revert-mode t)
-       (fset 'yes-or-nop 'y-or-n-p)
-       (setq dired-recursive-copies 'always)
-       (setq dired-recursive-deletes 'always)
-       (put 'dired-find-alternate-file 'disabled nil)
-       (with-eval-after-load 'dired
-         (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
-       (setq ediff-split-window-function 'split-window-horizontally)
-       (require 'dired-x)
-       (setq browse-url-browser-function 'browse-url-chromium)
-       (setq scroll-step 1)
-       (setq scroll-conservatively 10000)
-       (global-set-key (kbd "C-w") 'backward-kill-word)
-       (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-       (setq uniquify-buffer-name-style 'forward)
-       (setq save-interprogram-paste-before-kill t
-             mouse-yank-at-point t
-             ediff-window-setup-function 'ediff-setup-windows-plain)
+    (setq make-backup-files nil)
+    (setq auto-save-default nil)
+    (setq auto-save-list-file-prefix nil)
+    ;;(global-auto-revert-mode t)
+    (fset 'yes-or-nop 'y-or-n-p)
+    (setq dired-recursive-copies 'always)
+    (setq dired-recursive-deletes 'always)
+    (put 'dired-find-alternate-file 'disabled nil)
+    (with-eval-after-load 'dired
+      (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
+    (setq ediff-split-window-function 'split-window-horizontally)
+    (require 'dired-x)
+    (setq browse-url-browser-function 'browse-url-chromium)
+    (setq scroll-step 1)
+    (setq scroll-conservatively 10000)
+    (global-set-key (kbd "C-w") 'backward-kill-word)
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+    (setq uniquify-buffer-name-style 'forward)
+    (setq save-interprogram-paste-before-kill t
+          mouse-yank-at-point t
+          ediff-window-setup-function 'ediff-setup-windows-plain)
     (global-set-key (kbd "M-/") 'hippie-expand)
     (hl-line-mode 1)
-
   #+END_SRC
 
 * org
@@ -197,9 +189,10 @@
       :config
       (require 'smartparens-config))
     (use-package exec-path-from-shell
-      :if (memq window-system '(mac ns))
       :ensure t
+      :if (memq window-system '(mac ns x))
       :config
+      (setq exec-path-from-shell-variables '("PATH" "GOPATH"))
       (exec-path-from-shell-initialize))
     (use-package popwin
       :ensure t
@@ -331,14 +324,18 @@
                                (setq company-backends '((company-dabbrev-code company-gtags)))
                                (ggtags-mode 1)))
     #+END_SRC
+
 * keybingding 
   #+BEGIN_SRC emacs-lisp
     (set-register ?e (cons 'file "~/.emacs.d/org/init.org"))
-    (set-register ?g (cons 'file "~/gtd/gtd.org"))
-    (set-register ?w (cons 'file "~/go/src/git.algor.tech/"))
     (evil-leader/set-key-for-mode 'go-mode "jd" 'godef-jump)
     (evil-leader/set-key-for-mode 'c-mode "jd" 'ggtags-find-definition)
     (define-key evil-normal-state-map (kbd "SPC TAB") 'switch-to-previous-buffer)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
   #+END_SRC
   
   
