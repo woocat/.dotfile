@@ -91,7 +91,7 @@
     (set-default-font "Inconsolata 18" nil t)
     (dolist (charset '(kana han symbol cjk-misc bopomofo))
       (set-fontset-font (frame-parameter nil 'font)
-			charset (font-spec :family "WenQuanYi Micro Hei" :size 24)))
+		charset (font-spec :family "WenQuanYi Micro Hei" :size 20)))
     (menu-bar-mode -1)
     (scroll-bar-mode -1)
     (tool-bar-mode -1)
@@ -99,9 +99,15 @@
     (setq initial-frame-alist (quote ((fullscreen . maximized))))
     ;;(use-package smart-mode-line
     ;;  :ensure t)
-    (use-package monokai-theme
-      :ensure t)
-    (load-theme 'monokai t)
+    ;;(use-package monokai-theme
+    ;;  :ensure t
+    ;;  :config
+    ;;  (setq    monokai-height-plus-1 1.0
+    ;;	   monokai-height-plus-2 1.0
+    ;;	   monokai-height-plus-3 1.0
+    ;;	   monokai-height-plus-4 1.0)
+    ;;  )
+    (load-theme 'sanityinc-tomorrow-day t)
     (set-language-environment "UTF-8")
     (set-default-coding-systems 'utf-8)
   #+END_SRC
@@ -177,6 +183,7 @@
 		    )))
       (setq org-refile-targets (quote ((nil :maxlevel . 9)
 				       (org-agenda-files :maxlevel . 9))))
+
       )
   #+END_SRC
 
@@ -332,16 +339,16 @@
 	:ensure t
 	:config
 	(add-hook 'go-mode-hook (lambda ()
-				  (set (make-local-variable 'company-backends) '(company-go))
-				  (company-mode)
-				  (hungry-delete-mode)
-				  (flycheck-mode)
-				  (smartparens-mode)
-				  (go-eldoc-setup)
-				  (add-hook 'before-save-hook 'gofmt-before-save)
-				  (setq tab-width 4)
-				  (setq indent-tabs-mode 1)
-				  (setq gofmt-command "goimports"))))
+				(set (make-local-variable 'company-backends) '(company-go))
+				(company-mode)
+				(hungry-delete-mode)
+				(flycheck-mode)
+				(smartparens-mode)
+				(go-eldoc-setup)
+				(add-hook 'before-save-hook 'gofmt-before-save)
+				(setq tab-width 4)
+				(setq indent-tabs-mode 1)
+				(setq gofmt-command "goimports"))))
       (use-package go-rename
 	:defer t
 	:ensure t)
@@ -466,3 +473,4 @@
   
   
   
+
