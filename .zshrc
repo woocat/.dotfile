@@ -103,4 +103,3 @@ alias dotfile="cd ~/.dotfile"
 alias rsync="rsync -avcPz"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-cd $GOPATH/src/git.algor.tech/lx
