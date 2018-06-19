@@ -51,10 +51,14 @@ set $ws2 "2:WEB"
 ## Workspace keybinding
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
+bindsym $mod+3 workspace $ws3
+bindsym $mod+4 workspace $ws4
 
 ## Move to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2
+bindsym $mod+Shift+3 move container to workspace $ws3
+bindsym $mod+Shift+4 move container to workspace $ws4
 
 ## Specific window
 for_window [window_role="pop-up|bubble|task_dialog|Preferences"] floating enable
@@ -87,7 +91,7 @@ client.urgent           $cbg    $cunfo  $ccolor $cindi  $cunfo
 bindsym $mod+d exec rofi -show run
  
 exec --no-startup-id fcitx
-exec_always --no-startup-id  feh --bg-scale ~/pictures/joker_smile.jpg
+exec_always --no-startup-id  feh --bg-scale ~/pictures/apple.jpeg
 exec --no-startup-id compton  --xrender-sync --xrender-sync-fence  --paint-on-overlay --config ~/.config/compton.conf 
 exec --no-startup-id nm-applet
 
