@@ -77,6 +77,8 @@ endif
 
 map <leader>tn :NERDTreeToggle<CR>
 map <leader>tt :Tagbar<CR>
+map <leader>fr :CtrlPMRUFiles<CR>
+map <leader>bb :CtrlPBuffer<CR>
 
 " How can I close vim if the only window left open is a NERDTree?
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -85,3 +87,7 @@ set completeopt-=preview
 let g:ycm_add_preview_to_completeopt = 0
 
 set cursorline
+
+syntax on
+set number
+set relativenumber
