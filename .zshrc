@@ -75,6 +75,11 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
+autoload -U compinit promptinit
+compinit
+promptinit; prompt gentoo
+
+zstyle ':completion::complete:*' use-cache 1
 # You may need to manually set your language environment
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -102,5 +107,6 @@ alias tls="tmux ls"
 alias dotfile="cd ~/.dotfile"
 alias rsync="rsync -avcPz"
 alias vim="nvim"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# export GOPATH=$HOME/programming/go
+# export PATH=$PATH:/home/woocat/.local/bin:/home/woocat/programming/go/bin

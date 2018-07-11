@@ -4,3 +4,4 @@ eshell
 init.el
 bookmarks
 .emacs.d/url
+.config/nvim/plugged/

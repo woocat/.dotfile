@@ -4,8 +4,7 @@
 call plug#begin()
 
 " Make sure you use single quotes
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-go', { 'do': 'make'}
+Plug 'valloric/youcompleteme'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'bling/vim-airline'
 Plug 'tpope/vim-surround'
@@ -16,6 +15,8 @@ Plug 'kien/ctrlp.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'morhetz/gruvbox'
 Plug 'majutsushi/tagbar'
+Plug 'ervandew/supertab'
+Plug 'justinmk/vim-syntax-extra'
 
 " Initialize plugin system
 call plug#end()
@@ -50,10 +51,14 @@ let g:go_highlight_varible = 1
 let g:go_auto_sameids = 1
 let g:go_fmt_command = "goimports"
 let g:go_auto_type_info = 1
+let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck', "go build"]
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_deadline = "5s"
 
 let mapleader = "\<Space>"
 au FileType go nmap <leader>gt :GoDeclsDir<cr><Paste>
 au FileType go nmap <leader>jd <Plug>(go-def)
+
 
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -69,3 +74,14 @@ if executable('ag')
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
+
+map <leader>tn :NERDTreeToggle<CR>
+map <leader>tt :Tagbar<CR>
+
+" How can I close vim if the only window left open is a NERDTree?
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+set completeopt-=preview
+let g:ycm_add_preview_to_completeopt = 0
+
+set cursorline
