@@ -17,6 +17,7 @@ Plug 'morhetz/gruvbox'
 Plug 'majutsushi/tagbar'
 Plug 'ervandew/supertab'
 Plug 'justinmk/vim-syntax-extra'
+Plug 'altercation/vim-colors-solarized'
 
 " Initialize plugin system
 call plug#end()
@@ -26,10 +27,8 @@ set completeopt+=noinsert
 " deoplete.nvim recommend
 set completeopt+=noselect
 
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:deoplete#sources#go#gocode_binary='~/programming/go/bin/gocode'
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#sort_class=['package', 'func', 'type', 'var', 'const']
 
 au FileType go set noexpandtab
 au Filetype go set shiftwidth=4
@@ -37,7 +36,8 @@ au Filetype go set softtabstop=4
 au Filetype go set tabstop=4
 
 set background=dark
-colorscheme gruvbox
+colorscheme solarized
+set t_Co=256
 
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_extra_types = 1
@@ -91,3 +91,11 @@ set cursorline
 syntax on
 set number
 set relativenumber
+
+vmap <M-w> "+y
+nnoremap <silent> [b :bprevious<CR>
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [B :bfirst<CR>
+nnoremap <silent> ]B :blast<CR>
+cnoremap <expr> %% getcmdtype(  ) == ':' ? expand('%:h').'/' : '%%'
+set hidden
