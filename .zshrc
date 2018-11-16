@@ -45,7 +45,7 @@ DISABLE_AUTO_UPDATE="true"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="false"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -77,7 +77,6 @@ source $ZSH/oh-my-zsh.sh
 
 autoload -U compinit promptinit
 compinit
-promptinit; prompt gentoo
 
 zstyle ':completion::complete:*' use-cache 1
 # You may need to manually set your language environment
@@ -107,6 +106,8 @@ alias tls="tmux ls"
 alias dotfile="cd ~/.dotfile"
 alias rsync="rsync -avcPz"
 alias vim="nvim"
+alias ssh="ssh -A"
+export TERM="xterm-256color"
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # export GOPATH=$HOME/programming/go
 # export PATH=$PATH:/home/woocat/.local/bin:/home/woocat/programming/go/bin
